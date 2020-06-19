@@ -13,3 +13,17 @@ public:
 	virtual void Update()=0;
 	virtual void Draw()=0;
 };
+enum WAY {
+	up=0,
+	down,
+	front,
+	back,
+	left,
+	right,
+
+	NEUTRAL,
+	WAY_MAX
+};
+const D3DXVECTOR3 MOVEWAY[WAY_MAX]{
+	{0,1,0},{0,-1,0},{0,0,-1},{0,0,1},{-1,0,0},{1,0,0},{0,0,0}
+};//è„â∫ëOå„ç∂âEÇÃèáî‘Ç≈0~ÇT

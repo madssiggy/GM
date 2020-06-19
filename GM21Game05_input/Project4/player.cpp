@@ -7,11 +7,13 @@
 
 #include "player.h"
 #include "input.h"
-
+#include "bullet.h"
+#define MAX_BULLET_NUM (10)
 float speedMag;
 const float addSpeedMag = 0.01f;
 const float maxSpeedMag = 1.0f;
 const float minSpeedMag = 0.0f;
+CBullet myBullet[MAX_BULLET_NUM];
 void CPlayer::Init() {
 
 	m_Model = new CModel();
@@ -23,9 +25,16 @@ void CPlayer::Init() {
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	speedMag = 0.5f;
+	m_MoveWay = MOVEWAY[NEUTRAL];
+	for (int i = 0;i < MAX_BULLET_NUM ;i++) {
+		myBullet[i].Init();
+	}
 }
 
 void CPlayer::Uninit() {
+	for (int i = 0;i < MAX_BULLET_NUM;i++) {
+		myBullet[i].Uninit();
+	}
 	m_Model->Unload();
 	delete m_Model;
 
@@ -41,18 +50,34 @@ void CPlayer::Update() {
 	}
 
 	if (CInput::GetKeyPress('W')) {
-		m_Position.z += 1.0f*speedMag;
+		m_Position += MOVEWAY[back]*speedMag;
+		m_MoveWay = MOVEWAY[back];
 	}
 	else if (CInput::GetKeyPress('S')) {
-		m_Position.z -= 1.0f*speedMag;
+		m_Position+= MOVEWAY[front] * speedMag;
+		m_MoveWay = MOVEWAY[front];
 	}
 	else if (CInput::GetKeyPress('A')) {
-		m_Position.x -= 1.0f*speedMag;
+		m_Position += MOVEWAY[left] *speedMag;
+		m_MoveWay = MOVEWAY[left];
 	}
 	else if (CInput::GetKeyPress('D')) {
-		m_Position.x += 1.0f*speedMag;
+		m_Position += MOVEWAY[right] *speedMag;
+		m_MoveWay = MOVEWAY[right];
 	}
 
+	if (CInput::GetKeyTrigger('P')) {
+		for (int i = 0;i < MAX_BULLET_NUM;i++) {
+			if (myBullet[i].GetCanUse() == false) {
+				myBullet[i].Create(m_Position, m_MoveWay);
+			}
+		}
+	}
+	for (int i = 0;i < MAX_BULLET_NUM;i++) {
+		if (myBullet[i].GetCanUse() == true) {
+			myBullet[i].Update();
+		}
+	}
 }
 
 void CPlayer::Draw() {
@@ -68,6 +93,10 @@ void CPlayer::Draw() {
 
 
 	m_Model->Draw();
-
+	for (int i = 0;i < MAX_BULLET_NUM;i++) {
+		if (myBullet[i].GetCanUse() ==true) {
+			myBullet[i].Draw();
+		}
+	}
 }
 

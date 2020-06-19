@@ -1,8 +1,8 @@
 #pragma once
-
-class CCamera {
+#include "gameobject.h"
+class CCamera:public  CGameObject{
 private:
-	D3DXVECTOR3 m_Position;
+
 	D3DXVECTOR3 m_Target;
 public:
 	void Init();

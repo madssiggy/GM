@@ -3,6 +3,7 @@
 class CPlayer:public CGameObject {
 private:
 	CModel* m_Model;
+	D3DXVECTOR3 m_MoveWay;
 protected:
 public:
 	CPlayer() {}
