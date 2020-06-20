@@ -50,12 +50,26 @@ void CPlayer::Update() {
 	}
 
 	if (CInput::GetKeyPress('W')) {
-		m_Position += MOVEWAY[back]*speedMag;
 		m_MoveWay = MOVEWAY[back];
+
+		if (CInput::GetKeyPress('A')) 
+			m_MoveWay += MOVEWAY[left];
+		else if (CInput::GetKeyPress('D')) 
+			m_MoveWay += MOVEWAY[right];
+		
+		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+		m_Position += m_MoveWay * speedMag;
 	}
 	else if (CInput::GetKeyPress('S')) {
-		m_Position+= MOVEWAY[front] * speedMag;
 		m_MoveWay = MOVEWAY[front];
+
+		if (CInput::GetKeyPress('A'))
+			m_MoveWay += MOVEWAY[left];
+		else if (CInput::GetKeyPress('D'))
+			m_MoveWay += MOVEWAY[right];
+
+		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+		m_Position += m_MoveWay * speedMag;
 	}
 	else if (CInput::GetKeyPress('A')) {
 		m_Position += MOVEWAY[left] *speedMag;
@@ -98,5 +112,9 @@ void CPlayer::Draw() {
 			myBullet[i].Draw();
 		}
 	}
+}
+
+D3DXVECTOR3 CPlayer::GetPos() {
+	return m_Position;
 }
 

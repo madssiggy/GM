@@ -12,4 +12,6 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	D3DXVECTOR3 GetPos();
+
 };

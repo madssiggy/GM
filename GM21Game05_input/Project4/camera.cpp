@@ -8,7 +8,7 @@
 #include "player.h"
 D3DXVECTOR3 CameraPos;
 void CCamera::Init() {
-	CameraPos= D3DXVECTOR3(0.0f, 2.0f, -10.0f);
+	CameraPos= D3DXVECTOR3(0.0f, 4.0f, -30.0f);
 	m_Position = CameraPos;
 	m_Target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
@@ -21,6 +21,12 @@ void CCamera::Update() {
 	//if (CInput::GetKeyTrigger('I') &&m_Position.z>0.0f) {
 	//	m_Position.z
 	//}
+	
+}
+
+void CCamera::Update(D3DXVECTOR3 playerPos) {
+
+	m_Position = playerPos + CameraPos;
 }
 
 void CCamera::Draw() {
@@ -43,4 +49,7 @@ void CCamera::Draw() {
 
 D3DXVECTOR3 CCamera::GetPos() {
 	return m_Position;
+}
+void CCamera::SetPos(D3DXVECTOR3 playerPos) {
+	m_Target = playerPos;
 }

@@ -8,7 +8,8 @@ public:
 	void Init();
 	void Uninit();
 	void Update();
+	void Update(D3DXVECTOR3 playerPos);
 	void Draw();
 	D3DXVECTOR3 GetPos();
-
+	void SetPos(D3DXVECTOR3 playerPos);
 };

@@ -66,10 +66,16 @@ void CManager::Update()
 	//
 	CInput::Update();
 	g_Polygon->Update();
-	for (int i = 0;i <OBJECT_COUNT ;i++) {
+	g_GameObject[0]->Update();
+
+	for (int i = 1;i <OBJECT_COUNT ;i++) {
+
 		g_GameObject[i]->Update();
 
 	}
+	CCamera* test = (CCamera*)g_GameObject[0];
+	CPlayer* tmp = (CPlayer*)g_GameObject[2];
+	test->SetPos(tmp->GetPos());
 	//g_Field->Update();
 	//g_Camera->Update();
 	//g_Player->Update();
