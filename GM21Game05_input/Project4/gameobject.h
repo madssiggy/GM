@@ -12,6 +12,8 @@ public:
 	virtual void Uninit()=0;
 	virtual void Update()=0;
 	virtual void Draw()=0;
+
+//	D3DXVECTOR3 GetPosition(D3DXVECTOR3 pos) { m_Position = Pos; }
 };
 enum WAY {
 	up=0,

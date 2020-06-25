@@ -4,7 +4,7 @@
 #include "polygon.h"
 
 void CPolygon::Init() {
-
+	
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(((float)SCREEN_WIDTH/2)-200.0f+0.0f, ((float)SCREEN_HEIGHT/2)-200.0f+0.0f, 0.0f);
