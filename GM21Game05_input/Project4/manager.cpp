@@ -50,10 +50,9 @@ void CManager::Draw()
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	CRenderer::SetLight(light);
-	g_Scene->Update();
-	
-	//g_Field->Draw();
-	//g_Player->Draw();
+
+	g_Scene->Draw();
+
 	light.Enable = false;
 	CRenderer::SetLight(light);
 
