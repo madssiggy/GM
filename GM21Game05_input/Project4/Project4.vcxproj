@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="fps.cpp" />
     <ClCompile Include="input.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="fps.h" />
     <ClInclude Include="gameobject.h" />

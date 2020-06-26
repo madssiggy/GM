@@ -8,12 +8,15 @@
 #include "player.h"
 #include "input.h"
 #include "bullet.h"
+#include "enemy.h"
 #define MAX_BULLET_NUM (10)
+#define ENEMY_INDEX (3)
 float speedMag;
 const float addSpeedMag = 0.01f;
 const float maxSpeedMag = 1.0f;
 const float minSpeedMag = 0.0f;
 CBullet myBullet[MAX_BULLET_NUM];
+CEnemy g_Enemy[ENEMY_INDEX];
 void CPlayer::Init() {
 
 	m_Model = new CModel();
@@ -29,9 +32,19 @@ void CPlayer::Init() {
 	for (int i = 0;i < MAX_BULLET_NUM ;i++) {
 		myBullet[i].Init();
 	}
+	float posX = -20.0f;
+
+	for (int i = 0;i < ENEMY_INDEX;i++) {
+		D3DXVECTOR3 pos(posX, 0, 30.0f);
+		g_Enemy[i].Init(pos);
+		posX += 20.0f;
+	}
 }
 
 void CPlayer::Uninit() {
+	for (int i = 0;i < ENEMY_INDEX;i++) {
+		g_Enemy[i].Uninit();
+	}
 	for (int i = 0;i < MAX_BULLET_NUM;i++) {
 		myBullet[i].Uninit();
 	}
@@ -80,7 +93,7 @@ void CPlayer::Update() {
 		m_MoveWay = MOVEWAY[right];
 	}
 
-	if (CInput::GetKeyTrigger('P')) {
+	if (CInput::GetKeyTrigger(VK_SPACE)) {
 		for (int i = 0;i < MAX_BULLET_NUM;i++) {
 			if (myBullet[i].GetCanUse() == false) {
 				myBullet[i].Create(m_Position, m_MoveWay);
@@ -92,6 +105,10 @@ void CPlayer::Update() {
 			myBullet[i].Update();
 		}
 	}
+	for (int i = 0;i < ENEMY_INDEX;i++) {
+		g_Enemy[i].GetPlayerPos(m_Position);
+		g_Enemy[i].Update();
+}
 }
 
 void CPlayer::Draw() {
@@ -111,6 +128,9 @@ void CPlayer::Draw() {
 		if (myBullet[i].GetCanUse() ==true) {
 			myBullet[i].Draw();
 		}
+	}
+	for (int i = 0;i < ENEMY_INDEX;i++) {
+		g_Enemy[i].Draw();
 	}
 }
 

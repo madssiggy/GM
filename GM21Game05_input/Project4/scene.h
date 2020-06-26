@@ -6,8 +6,10 @@
 #include "field.h"
 #include "model.h"
 #include "player.h"
+#include "enemy.h"
 #include "polygon.h"
-
+#include <iostream>
+#include <iterator> // std::next()ŠÖ”‚ªŠ‘®‚·‚éƒwƒbƒ_
 class CScene {
 protected:
 	std::list<CGameObject*>m_GameObject;
@@ -20,6 +22,8 @@ public:
 		AddGameObject<CCamera>();
 		AddGameObject<CField>();
 		AddGameObject<CPlayer>();
+
+
 		AddGameObject<CPolygon>();
 
 	}
@@ -31,9 +35,13 @@ public:
 		m_GameObject.clear();
 	}
 	virtual void Update() {
+
 		for (CGameObject* object : m_GameObject) {
 			object->Update();
 		}
+		AddGameObject<CPlayer>()->Update();
+
+
 	}
 	virtual void Draw() {
 		for (CGameObject* object : m_GameObject) {
@@ -47,6 +55,14 @@ public:
 		T* gameObject = new T();
 		m_GameObject.push_back(gameObject);
 		gameObject->Init();
+
+		return gameObject;
+	}
+	template <typename T>
+	T* AddGameObject(D3DXVECTOR3 pos) {
+		T* gameObject = new T();
+		m_GameObject.push_back(gameObject);
+		gameObject->Init(pos);
 
 		return gameObject;
 	}
