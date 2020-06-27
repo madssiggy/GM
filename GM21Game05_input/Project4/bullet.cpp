@@ -40,6 +40,7 @@ void CBullet::Update() {
 	if (Movecount >= MaxDistance) {
 		Destroy();
 	}
+	m_Col.Update(m_Position);
 }
 
 void CBullet::Draw() {
@@ -63,6 +64,7 @@ void CBullet::Create(D3DXVECTOR3 playerPos,D3DXVECTOR3 Way) {
 	moveWay = Way;
 	canUse = true;
 	Movecount = 0;
+	m_Col.Init(m_Position,5.0f);
 }
 void CBullet::Destroy() {
 	//エフェクト発生させたら素敵だね

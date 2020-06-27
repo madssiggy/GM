@@ -7,7 +7,8 @@
 #include "model.h"
 #include "player.h"
 #include "polygon.h"
-
+CPlayer* tmpP;
+CCamera* tmpC;
 class CScene {
 protected:
 	std::list<CGameObject*>m_GameObject;
@@ -17,11 +18,13 @@ public:
 	virtual ~CScene() {}
 	virtual void Init(){
 	
-		AddGameObject<CCamera>();
+		tmpC=AddGameObject<CCamera>();
 		AddGameObject<CField>();
-		AddGameObject<CPlayer>();
+		tmpP=AddGameObject<CPlayer>();
 		AddGameObject<CPolygon>();
-
+		AddGameObject<CCamera>()->Init(	tmpP->GetPos(),
+							D3DXVECTOR3(0.0f, 400.0f, -30.0f),
+							D3DXVECTOR3(30.0f,0.0f,0.0f));
 	}
 	virtual void Uninit() {
 		for (CGameObject* object : m_GameObject) {
@@ -34,13 +37,14 @@ public:
 		for (CGameObject* object : m_GameObject) {
 			object->Update();
 		}
+		tmpC->Update(tmpP->GetPos());
 	}
 	virtual void Draw() {
 		for (CGameObject* object : m_GameObject) {
 			object->Draw();
 
 		}
-
+		tmpC->Draw(tmpP->GetPos());
 	}
 	template <typename T>
 	T* AddGameObject() {

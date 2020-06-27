@@ -7,22 +7,22 @@
 
 
 
-CScene* g_Scene;
+CScene* CManager::m_Scene=NULL;
 
 void CManager::Init()
 {
 
 	CRenderer::Init();
 	CInput::Init();
-	g_Scene = new CScene;
-	g_Scene->Init();
+	m_Scene = new CScene;
+	m_Scene->Init();
 
 }
 
 void CManager::Uninit()
 {
 
-	g_Scene->Uninit();
+	m_Scene->Uninit();
 
 	CInput::Uninit();
 	CRenderer::Uninit();
@@ -32,7 +32,7 @@ void CManager::Update()
 {
 	//
 	CInput::Update();
-	g_Scene->Update();
+	m_Scene->Update();
 
 }
 
@@ -51,7 +51,7 @@ void CManager::Draw()
 	light.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	CRenderer::SetLight(light);
 
-	g_Scene->Draw();
+	m_Scene->Draw();
 
 	light.Enable = false;
 	CRenderer::SetLight(light);

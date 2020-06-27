@@ -1,19 +1,19 @@
 #pragma once
 #include "gameobject.h"
 #include "collision.h"
-class CPlayer:public CGameObject {
-private:
-	CModel* m_Model;
-	D3DXVECTOR3 m_MoveWay;
-	CCollision m_Col;
+class CEnemy:public CGameObject{
 protected:
+	CModel* m_Model;
+	D3DXVECTOR3 m_playerPos;
+	CCollision m_Col;
 public:
-	CPlayer() {}
-	~CPlayer() {}
+	CEnemy() {}
+	~CEnemy() {}
 	void Init();
+	void Init(D3DXVECTOR3 pos);
 	void Uninit();
 	void Update();
 	void Draw();
-	D3DXVECTOR3 GetPos();
+	void GetPlayerPos(D3DXVECTOR3 Ppos);
 	CCollision GetCollision() { return m_Col; }
 };
