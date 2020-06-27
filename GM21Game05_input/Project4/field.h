@@ -8,6 +8,7 @@ private:
 	ID3D11ShaderResourceView*	m_Texture = NULL;//‰æ‘œ
 public:
 	void Init();
+	void Init(D3DXVECTOR3 Center,float Size, float Height);
 	void Uninit();
 	void Update();
 	void Draw();
