@@ -106,7 +106,7 @@ void CField::Init(D3DXVECTOR3 Center, float Size,float Height) {
 		&m_Texture,
 		NULL);
 	assert(m_Texture);//リリース時には出てこない、エラー時に出てきてくれるすぐれもの
-	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Position = Center;
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }
@@ -179,20 +179,27 @@ VERTEX_3D SetVertex(int index,D3DXVECTOR3 Center, float Size,float Height) {
 		case 0:
 			mag = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
 			tmp.TexCoord = D3DXVECTOR2(0.0f, 0.0f);
+			//vertex[0].Position = D3DXVECTOR3(-10.0f, 0.0f, 10.0f);//3D化
+			//vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 				break;
 		case 1:
 			mag = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 			tmp.TexCoord = D3DXVECTOR2(1.0f, 0.0f);
+			//vertex[1].Position = D3DXVECTOR3(10.0f, 0.0f, 10.0f);
+			//vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
 			break;
 		case 2:
 			mag = D3DXVECTOR3(-1.0f, 1.0f, -1.0f);
 			tmp.TexCoord = D3DXVECTOR2(0.0f, 1.0f);
+			//vertex[2].Position = D3DXVECTOR3(-10.0f, 0.0f, -10.0f);
+			//vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
 			break;
 		case 3:
 			mag = D3DXVECTOR3(1.0f, 1.0f, -1.0f);
 			tmp.TexCoord = D3DXVECTOR2(1.0f, 1.0f);
+			//vertex[3].Position = D3DXVECTOR3(10.0f, 0.0f, -10.0f);
+			//vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 			break;
-
 		default:
 			break;
 		}
