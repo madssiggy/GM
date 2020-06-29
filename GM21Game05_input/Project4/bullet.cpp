@@ -7,7 +7,7 @@
 
 #include "bullet.h"
 #include "input.h"
-
+#define BULLET_WIDTH (30)
 
 void CBullet::Init() {
 
@@ -18,7 +18,8 @@ void CBullet::Init() {
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
+	m_Col.Center = m_Position;
+	m_Col.r = (float)BULLET_WIDTH*0.8f;
 
 	moveWay = MOVEWAY[NEUTRAL];
 	canUse = false;
@@ -34,28 +35,32 @@ void CBullet::Uninit() {
 
 void CBullet::Update() {
 	if (canUse == true) {
+		m_Col.Center = m_Position;
+
 		m_Position += moveWay;
 		Movecount++;
-	}
+	
 	if (Movecount >= MaxDistance) {
 		Destroy();
 	}
-	m_Col.Update(m_Position);
+	}
 }
 
 void CBullet::Draw() {
 	//マトリクス設定
+	if (canUse == true) {
+		D3DXMATRIX world, scale, rot, trans;
+		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+		D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+		world = scale * rot*trans;
+		CRenderer::SetWorldMatrix(&world);
 
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot*trans;
-	CRenderer::SetWorldMatrix(&world);
 
 
-
-	m_Model->Draw();
+		m_Model->Draw();
+	}
+	
 
 }
 
@@ -64,7 +69,7 @@ void CBullet::Create(D3DXVECTOR3 playerPos,D3DXVECTOR3 Way) {
 	moveWay = Way;
 	canUse = true;
 	Movecount = 0;
-	m_Col.Init(m_Position,5.0f);
+
 }
 void CBullet::Destroy() {
 	//エフェクト発生させたら素敵だね

@@ -8,6 +8,7 @@
 
 #include "enemy.h"
 D3DXVECTOR3 mag(0.1f, 0.1f, 0.1f);
+#define ENEMY_WIDTH (32)
 void CEnemy::Init(D3DXVECTOR3 pos) {
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\torus.obj");
@@ -19,7 +20,8 @@ void CEnemy::Init(D3DXVECTOR3 pos) {
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_playerPos= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	m_Col.Init(m_Position, 3.0f);
+	m_Col.Center = m_Position;
+	m_Col.r = (float)ENEMY_WIDTH*0.8f;
 }
 
 void CEnemy::Init() {
@@ -32,10 +34,11 @@ void CEnemy::Init() {
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_playerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	m_Col.Init(m_Position, 3.0f);
+	m_Col.Center = m_Position;
+	m_Col.r = (float)ENEMY_WIDTH*0.8f;
 }
 void CEnemy::Uninit() {
-	m_Col.Uninit();
+
 	m_Model->Unload();
 	delete m_Model;
 }
@@ -46,7 +49,7 @@ void CEnemy::Update() {
 	moveWay.y *= mag.y;
 	moveWay.z *= mag.z;
 	m_Position += moveWay;
-	m_Col.Update(m_Position);
+	m_Col.Center = m_Position;
 }
 void CEnemy::Draw() {//マトリクス設定
 

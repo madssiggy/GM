@@ -5,7 +5,7 @@ class CPlayer:public CGameObject {
 private:
 	CModel* m_Model;
 	D3DXVECTOR3 m_MoveWay;
-	CCollision m_Col;
+	CIRCLE m_Col;
 protected:
 public:
 	CPlayer() {}
@@ -15,5 +15,6 @@ public:
 	void Update();
 	void Draw();
 	D3DXVECTOR3 GetPos();
-	CCollision GetCollision() { return m_Col; }
+	D3DXVECTOR3 GetMoveWay();
+	const CIRCLE* GetCollision() { return &m_Col; }
 };

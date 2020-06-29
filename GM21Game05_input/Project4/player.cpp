@@ -8,15 +8,17 @@
 #include "player.h"
 #include "input.h"
 #include "bullet.h"
-#include "enemy.h"
-#define MAX_BULLET_NUM (10)
-#define ENEMY_INDEX (3)
+//#include "enemy.h"
+
+//#define ENEMY_INDEX (3)
 float speedMag;
 const float addSpeedMag = 0.01f;
 const float maxSpeedMag = 1.0f;
 const float minSpeedMag = 0.0f;
-CBullet myBullet[MAX_BULLET_NUM];
-CEnemy g_Enemy[ENEMY_INDEX];
+
+//CEnemy g_Enemy[ENEMY_INDEX];
+#define PLAYER_WIDTH (100)
+
 void CPlayer::Init() {
 
 	m_Model = new CModel();
@@ -29,26 +31,17 @@ void CPlayer::Init() {
 
 	speedMag = 0.5f;
 	m_MoveWay = MOVEWAY[NEUTRAL];
-	for (int i = 0;i < MAX_BULLET_NUM ;i++) {
-		myBullet[i].Init();
-	}
-	float posX = -20.0f;
 
-	for (int i = 0;i < ENEMY_INDEX;i++) {
-		D3DXVECTOR3 pos(posX, 0, 30.0f);
-		g_Enemy[i].Init(pos);
-		posX += 20.0f;
-	}
-	m_Col.Init(m_Position, 50.0f);
+
+	m_Col.Center = m_Position;
+	m_Col.r = (float)PLAYER_WIDTH * 0.8f;
 }
 
 void CPlayer::Uninit() {
-	for (int i = 0;i < ENEMY_INDEX;i++) {
-		g_Enemy[i].Uninit();
-	}
-	for (int i = 0;i < MAX_BULLET_NUM;i++) {
-		myBullet[i].Uninit();
-	}
+	//for (int i = 0;i < ENEMY_INDEX;i++) {
+	//	g_Enemy[i].Uninit();
+	//}
+
 	m_Model->Unload();
 	delete m_Model;
 
@@ -94,23 +87,8 @@ void CPlayer::Update() {
 		m_MoveWay = MOVEWAY[right];
 	}
 
-	if (CInput::GetKeyTrigger(VK_SPACE)) {
-		for (int i = 0;i < MAX_BULLET_NUM;i++) {
-			if (myBullet[i].GetCanUse() == false) {
-				myBullet[i].Create(m_Position, m_MoveWay);
-			}
-		}
-	}
-	for (int i = 0;i < MAX_BULLET_NUM;i++) {
-		if (myBullet[i].GetCanUse() == true) {
-			myBullet[i].Update();
-		}
-	}
-	for (int i = 0;i < ENEMY_INDEX;i++) {
-		g_Enemy[i].GetPlayerPos(m_Position);
-		g_Enemy[i].Update();
-}
-	m_Col.Update(m_Position);
+
+	m_Col.Center = m_Position;
 }
 
 void CPlayer::Draw() {
@@ -126,29 +104,24 @@ void CPlayer::Draw() {
 
 
 	m_Model->Draw();
-	for (int i = 0;i < MAX_BULLET_NUM;i++) {
-		if (myBullet[i].GetCanUse() ==true) {
-			myBullet[i].Draw();
-		}
-	}
-	for (int i = 0;i < ENEMY_INDEX;i++) {
-		g_Enemy[i].Draw();
-	}
+
 }
 
 D3DXVECTOR3 CPlayer::GetPos() {
 	return m_Position;
 }
 
-bool CollisionVsEnemAndBul() {
-	for (int i = 0;i < MAX_BULLET_NUM;i++) {
-		if (myBullet[i].GetCanUse()) {
-			continue;
-		}
-		for (int EnemyCount = 0;EnemyCount < ENEMY_INDEX;EnemyCount++) {
-			if (OnCollisionEnter(g_Enemy[i].GetCollision(), myBullet[i].GetCollision())) 
-				return true;
-		}
-	}
-	return false;
-}
+D3DXVECTOR3 CPlayer::GetMoveWay() { return m_MoveWay; }
+
+//bool CollisionVsEnemAndBul() {
+//	for (int i = 0;i < MAX_BULLET_NUM;i++) {
+//		if (myBullet[i].GetCanUse()) {
+//			continue;
+//		}
+//		for (int EnemyCount = 0;EnemyCount < ENEMY_INDEX;EnemyCount++) {
+//			if (OnCollisionEnter(g_Enemy[i].GetCollision(), myBullet[i].GetCollision())) 
+//				return true;
+//		}
+//	}
+//	return false;
+//}

@@ -1,11 +1,12 @@
 #pragma once
 #include "gameobject.h"
 #include "collision.h"
+#define ENEMY_INDEX (3)
 class CEnemy:public CGameObject{
 protected:
 	CModel* m_Model;
 	D3DXVECTOR3 m_playerPos;
-	CCollision m_Col;
+	CIRCLE m_Col;
 public:
 	CEnemy() {}
 	~CEnemy() {}
@@ -15,5 +16,5 @@ public:
 	void Update();
 	void Draw();
 	void GetPlayerPos(D3DXVECTOR3 Ppos);
-	CCollision GetCollision() { return m_Col; }
+	const CIRCLE* GetCollision() { return &m_Col; }
 };

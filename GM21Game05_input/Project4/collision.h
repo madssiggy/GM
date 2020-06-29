@@ -2,22 +2,16 @@
 typedef struct {
 	D3DXVECTOR3 Center;
 	float r;
-}pos;
+}CIRCLE;
 class CCollision {
 protected:
-	pos m_Circle;
 public:
 	void Init();
-	void Init(D3DXVECTOR3 c,float r);
 	void Uninit();
 	void Update();
-	void Update(D3DXVECTOR3 p);
-
-	pos GetCircle() {
-		return m_Circle;
-	}
+	void Update(const CIRCLE* player, const CIRCLE* enemy, const CIRCLE* bullet );
 	
 };
-void EnemyVSBullet(CCollision target, CCollision bullet);
+//void EnemyVSBullet(const CEnemy* target, const CBullet* bullet);
 
-bool OnCollisionEnter(CCollision target, CCollision bullet);
+bool OnCollisionEnter(const CIRCLE* target, const CIRCLE* bullet);
