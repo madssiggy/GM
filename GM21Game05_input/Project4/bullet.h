@@ -1,6 +1,7 @@
 #pragma once
 #include "gameobject.h"
 #include "collision.h"
+
 #define MAX_BULLET_NUM (10)
 class CBullet :public CGameObject {
 private:
@@ -20,4 +21,4 @@ public:
 	const CIRCLE* GetCollision() { return &m_Col; }
 
 };
-const int MaxDistance = 10;
+const int MaxDistance = 40;

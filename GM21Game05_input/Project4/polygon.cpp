@@ -7,22 +7,22 @@ void CPolygon::Init() {
 	
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(((float)SCREEN_WIDTH/2)-200.0f+0.0f, ((float)SCREEN_HEIGHT/2)-200.0f+0.0f, 0.0f);
+	vertex[0].Position = D3DXVECTOR3(((float)SCREEN_WIDTH/2)-470.0f+0.0f, ((float)SCREEN_HEIGHT/2)-270.0f+0.0f, 0.0f);
 	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);
 	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(((float)SCREEN_WIDTH / 2) - 200.0f +200.0f, ((float)SCREEN_HEIGHT / 2) - 200.0f + 0.0f, 0.0f);
+	vertex[1].Position = D3DXVECTOR3(((float)SCREEN_WIDTH / 2) - 470.0f +200.0f, ((float)SCREEN_HEIGHT / 2) - 270.0f + 0.0f, 0.0f);
 	vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
 	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(((float)SCREEN_WIDTH / 2) - 200.0f +0.0f, ((float)SCREEN_HEIGHT / 2) - 200.0f + 200.0f, 0.0f);
+	vertex[2].Position = D3DXVECTOR3(((float)SCREEN_WIDTH / 2) - 470.0f +0.0f, ((float)SCREEN_HEIGHT / 2) - 270.0f + 200.0f, 0.0f);
 	vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse = D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
 
-	vertex[3].Position = D3DXVECTOR3(((float)SCREEN_WIDTH / 2) - 200.0f +200.0f, ((float)SCREEN_HEIGHT / 2) - 200.0f + 200.0f, 0.0f);
+	vertex[3].Position = D3DXVECTOR3(((float)SCREEN_WIDTH / 2) - 470.0f +200.0f, ((float)SCREEN_HEIGHT / 2) - 270.0f + 200.0f, 0.0f);
 	vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
@@ -61,6 +61,9 @@ void CPolygon::Update() {
 }
 
 void CPolygon::Draw() {
+	LIGHT light;
+	light.Enable = false;
+	CRenderer::SetLight(light);
 	//マトリクス設定
 	CRenderer::SetWorldViewProjection2D();
 

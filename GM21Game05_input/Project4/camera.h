@@ -14,6 +14,7 @@ public:
 	void Update(D3DXVECTOR3 playerPos);
 	void Draw();
 	void Draw(const D3DXVECTOR3& pPos);
+	void fixedDraw();
 	D3DXVECTOR3 GetPos();
 	void SetPos(D3DXVECTOR3 playerPos);
 };

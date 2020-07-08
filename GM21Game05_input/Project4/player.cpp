@@ -8,6 +8,7 @@
 #include "player.h"
 #include "input.h"
 #include "bullet.h"
+
 //#include "enemy.h"
 
 //#define ENEMY_INDEX (3)
@@ -25,7 +26,7 @@ void CPlayer::Init() {
 	m_Model->Load("asset\\model\\human.obj");
 	
 
-	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Position = D3DXVECTOR3(0.0f, 15.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
@@ -61,7 +62,7 @@ void CPlayer::Update() {
 
 		if (CInput::GetKeyPress('A')) 
 			m_MoveWay += MOVEWAY[left];
-		else if (CInput::GetKeyPress('D')) 
+		if (CInput::GetKeyPress('D')) 
 			m_MoveWay += MOVEWAY[right];
 		
 		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
@@ -72,7 +73,7 @@ void CPlayer::Update() {
 
 		if (CInput::GetKeyPress('A'))
 			m_MoveWay += MOVEWAY[left];
-		else if (CInput::GetKeyPress('D'))
+		if (CInput::GetKeyPress('D'))
 			m_MoveWay += MOVEWAY[right];
 
 		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
@@ -87,6 +88,16 @@ void CPlayer::Update() {
 		m_MoveWay = MOVEWAY[right];
 	}
 
+	if (CInput::GetKeyTrigger(VK_SPACE)) {
+		//CScene* scene = CManager::GetScene();
+		//scene->AddGameObject<CBullet>(1)->SetPosition();
+		/*for (int i = 0;i < MAX_BULLET_NUM;i++) {
+			if (tmpBullet[i]->GetCanUse() == false) {
+				tmpBullet[i]->Create(tmpP->GetPosition(), tmpP->GetMoveWay());
+
+			}
+		}*/
+	}
 
 	m_Col.Center = m_Position;
 }
@@ -96,7 +107,7 @@ void CPlayer::Draw() {
 
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.z, m_Rotation.x);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot*trans;
 	CRenderer::SetWorldMatrix(&world);
@@ -107,9 +118,7 @@ void CPlayer::Draw() {
 
 }
 
-D3DXVECTOR3 CPlayer::GetPos() {
-	return m_Position;
-}
+
 
 D3DXVECTOR3 CPlayer::GetMoveWay() { return m_MoveWay; }
 

@@ -14,7 +14,6 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	D3DXVECTOR3 GetPos();
 	D3DXVECTOR3 GetMoveWay();
 	const CIRCLE* GetCollision() { return &m_Col; }
 };

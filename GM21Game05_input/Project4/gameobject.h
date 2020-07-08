@@ -4,7 +4,7 @@ protected:
 	D3DXVECTOR3 m_Position;
 	D3DXVECTOR3 m_Rotation;
 	D3DXVECTOR3 m_Scale;
-
+	bool canUse;
 public:
 	CGameObject() {}
 	virtual ~CGameObject() {}
@@ -12,8 +12,12 @@ public:
 	virtual void Uninit()=0;
 	virtual void Update()=0;
 	virtual void Draw()=0;
+	virtual void Create() { canUse = true; }
+	virtual void Destroy() { canUse = false; }
+	D3DXVECTOR3 GetPosition(){ return m_Position; }
+	D3DXVECTOR3 SetPosition(D3DXVECTOR3 pos) { m_Position = pos; }
 
-//	D3DXVECTOR3 GetPosition(D3DXVECTOR3 pos) { m_Position = Pos; }
+	void SetDestroy() {}
 };
 enum WAY {
 	up=0,

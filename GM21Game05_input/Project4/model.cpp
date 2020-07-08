@@ -371,7 +371,7 @@ void CModel::LoadObj( const char *FileName, MODEL *Model )
 		Model->SubsetArray[ sc - 1 ].IndexNum = ic - Model->SubsetArray[ sc - 1 ].StartIndex;
 
 
-
+	fclose(file);
 
 
 	delete[] positionArray;
@@ -495,7 +495,7 @@ void CModel::LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray,
 		}
 	}
 
-
+	fclose(file);
 	*MaterialArray = materialArray;
 	*MaterialNum = materialNum;
 }

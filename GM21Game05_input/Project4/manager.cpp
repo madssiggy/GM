@@ -48,7 +48,7 @@ void CManager::Draw()
 	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
 	D3DXVec4Normalize(&light.Direction, &light.Direction);
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
-	light.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+	light.Diffuse = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.0f);
 	CRenderer::SetLight(light);
 
 	m_Scene->Draw();
