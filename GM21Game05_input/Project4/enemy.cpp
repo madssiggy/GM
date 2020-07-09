@@ -7,6 +7,7 @@
 
 
 #include "enemy.h"
+
 D3DXVECTOR3 mag(0.1f, 0.1f, 0.1f);
 #define ENEMY_WIDTH (32)
 void CEnemy::Init(D3DXVECTOR3 pos) {
@@ -52,17 +53,18 @@ void CEnemy::Update() {
 	m_Col.Center = m_Position;
 }
 void CEnemy::Draw() {//マトリクス設定
+	if (canUse == true) {
+		D3DXMATRIX world, scale, rot, trans;
+		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
+		D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+		world = scale * rot*trans;
+		CRenderer::SetWorldMatrix(&world);
 
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot*trans;
-	CRenderer::SetWorldMatrix(&world);
 
 
-
-	m_Model->Draw();
+		m_Model->Draw();
+	}
 }
 
 void CEnemy::GetPlayerPos(D3DXVECTOR3 Ppos) {

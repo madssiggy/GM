@@ -7,7 +7,7 @@ protected:
 	CModel* m_Model;
 	D3DXVECTOR3 m_playerPos;
 	CIRCLE m_Col;
-	bool canUse;
+	bool canUse=true;
 public:
 	CEnemy() {}
 	~CEnemy() {}
@@ -16,8 +16,9 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	D3DXVECTOR3 GetPosition() { return m_Position; }
+	
 	void GetPlayerPos(D3DXVECTOR3 Ppos);
 	const CIRCLE* GetCollision() { return &m_Col; }
 	void Destroy() { canUse = false; }
+	void SetCanUse(bool set) { canUse = set; }
 };

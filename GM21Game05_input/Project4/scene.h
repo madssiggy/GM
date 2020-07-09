@@ -1,5 +1,8 @@
 #pragma once
 #include <list>
+#include <typeinfo>
+#include <vector>
+#include "input.h"
 #include "main.h"
 #include "gameobject.h"
 #include "camera.h"
@@ -10,20 +13,19 @@
 #include "enemy.h"
 #include "polygon.h"
 #include "scene.h"
-#include <typeinfo>
-#include <vector>
-CPlayer* tmpP;
-CBullet* tmpBullet[MAX_BULLET_NUM];
-CCamera* tmpC;
-CEnemy* tmpE[ENEMY_INDEX];
-const int FIELD_X = 5;//X横軸上におく個数
-const int FIELD_Z = 5;//Z軸上に置く個数
-CField* tmpF[FIELD_Z][FIELD_X];
-CCollision* tmpCol;
+
+
+
 class CScene {
 protected:
 	std::list<CGameObject*>m_GameObject[3];//あとから直値を定値にかえよう
-
+	CPlayer* tmpP;
+	CBullet* tmpBullet[MAX_BULLET_NUM];
+	CCamera* tmpC;
+	CEnemy* tmpE[ENEMY_INDEX];
+	const int FIELD_X = 5;//X横軸上におく個数
+	const int FIELD_Z = 5;//Z軸上に置く個数
+	CField* tmpF[5][5];
 public:
 	CScene(){}
 	virtual ~CScene() {}
@@ -64,11 +66,11 @@ public:
 		AddGameObject<CCamera>(0)->Init(	tmpP->GetPosition(),
 																	D3DXVECTOR3(0.0f, 400.0f, -30.0f),
 																	D3DXVECTOR3(30.0f,0.0f,0.0f));
-		tmpCol->Init();
+
 	}
 
 	virtual void Uninit() {
-		tmpCol->Uninit();
+
 		for (int i = 0;i < 3;i++) {
 			for (CGameObject* object : m_GameObject[i]) {
 				object->Uninit();
@@ -84,7 +86,7 @@ public:
 			for (CGameObject* object : m_GameObject[i]) {
 				object->Update();
 			}
-			/*m_GameObject[i].remove_if([](CGameObject* object){return object->Destroy();})*/
+		//	m_GameObject[i].remove_if([](CGameObject* object) {return object->Destroy();});
 		}
 	
 		for (int i = 0;i < ENEMY_INDEX;i++) {
@@ -106,14 +108,6 @@ public:
 		}
 		tmpC->Update(tmpP->GetPosition());
 
-		for (int i = 0;i < ENEMY_INDEX;i++) {
-			for (int n = 0;n < MAX_BULLET_NUM;n++) {
-				if (OnCollisionEnter(tmpE[i]->GetCollision(), tmpBullet[n]->GetCollision())) {
-					tmpE[i]->Destroy();
-					tmpBullet[n]->Destroy();
-				}
-			}
-		}
 
 	}
 

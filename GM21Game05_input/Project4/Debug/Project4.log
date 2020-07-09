@@ -1,2 +1,6 @@
-﻿  manager.cpp
+﻿  bullet.cpp
+  enemy.cpp
+  manager.cpp
+  player.cpp
+  コードを生成中...
   Project4.vcxproj -> C:\Users\user\Documents\GM\GM21Game05_input\Debug\Project4.exe

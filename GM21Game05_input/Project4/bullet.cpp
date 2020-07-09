@@ -7,7 +7,7 @@
 
 #include "enemy.h"
 #include "bullet.h"
-
+#include"scene.h"
 #define BULLET_WIDTH (30)
 CEnemy enemyList[ENEMY_INDEX];
 void CBullet::Init() {
@@ -35,18 +35,19 @@ void CBullet::Uninit() {
 }
 
 void CBullet::Update() {
-	//CScene* scene = CManager::GetScene();
-	//std::vector<CEnemy*>enemyList = scene->GetGameObjects<CEnemy>();
-	//for (CEnemy* enemy : enemyList) {
-	//	D3DXVECTOR3 enemyPosition = enemy->GetPosition();
-	//	D3DXVECTOR3 direction = m_Position - enemyPosition;
-	//	float length = D3DXVec3Length(&direction);
-	//	if (length < 2.0f) {
-	//		enemy->Destroy();
-	//		Destroy();
-	//		return;
-	//	}
-	//}
+	CScene* scene = CManager::GetScene();
+	std::vector<CEnemy*>enemyList = scene->GetGameObjects<CEnemy>(1);
+	for (CEnemy* enemy : enemyList) {
+		D3DXVECTOR3 enemyPosition = enemy->GetPosition();
+		D3DXVECTOR3 direction = m_Position - enemyPosition;
+		float length = D3DXVec3Length(&direction);
+		if (length < 2.0f) {
+			enemy->Destroy();
+			enemy->SetCanUse(false);
+			Destroy();
+			return;
+		}
+	}
 	if (canUse == true) {
 		m_Col.Center = m_Position;
 

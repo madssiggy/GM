@@ -8,7 +8,7 @@
 #include "player.h"
 #include "input.h"
 #include "bullet.h"
-
+#include "scene.h"
 //#include "enemy.h"
 
 //#define ENEMY_INDEX (3)
@@ -89,8 +89,8 @@ void CPlayer::Update() {
 	}
 
 	if (CInput::GetKeyTrigger(VK_SPACE)) {
-		//CScene* scene = CManager::GetScene();
-		//scene->AddGameObject<CBullet>(1)->SetPosition();
+		CScene* scene = CManager::GetScene();
+		scene->AddGameObject<CBullet>(1)->Create(m_Position,m_MoveWay);
 		/*for (int i = 0;i < MAX_BULLET_NUM;i++) {
 			if (tmpBullet[i]->GetCanUse() == false) {
 				tmpBullet[i]->Create(tmpP->GetPosition(), tmpP->GetMoveWay());
