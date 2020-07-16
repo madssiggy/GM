@@ -12,10 +12,13 @@
 D3DXVECTOR3 CameraPos;
 static D3DXVECTOR3 oldCameraPos;
 bool isOnePerson;
+D3DXVECTOR3 p_cameraPos(0.0f, 10.0f, -10.0f);
 void CCamera::Init() {
-	CameraPos= D3DXVECTOR3(0.0f, 4.0f, -30.0f);
+	CameraPos = p_cameraPos;
 	m_Position = CameraPos;
 	m_Target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//D3DXMatrixLookAtLH(&m_Matrix, &m_Position, &m_Target,
+	//	&m_Target);
 }
 void CCamera::Init(	D3DXVECTOR3 pPos ,
 								D3DXVECTOR3 mPos,
@@ -23,7 +26,7 @@ void CCamera::Init(	D3DXVECTOR3 pPos ,
 	m_Target = pPos;
 	m_Position = mPos;
 	m_Rotation = mRot;
-	CameraPos =D3DXVECTOR3(0.0f, 30.0f, -30.0f);
+	CameraPos = p_cameraPos;
 	oldCameraPos=CameraPos;
 	m_Position = m_Target+CameraPos;
 	m_Target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -64,15 +67,13 @@ void CCamera::Update(D3DXVECTOR3 playerPos) {
 	m_Position =m_Target  + CameraPos;
 }
 
-
-
 void CCamera::Draw() {
 	D3DXMATRIX viewMatrix;
 	D3DXMatrixLookAtLH(&viewMatrix, &m_Position, &m_Target,
 		&D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 
 	CRenderer::SetViewMatrix(&viewMatrix);
-
+	m_viewMatrix = viewMatrix;
 
 	//プロじぇんくしょんマトリクス設定
 
@@ -84,12 +85,9 @@ void CCamera::Draw() {
 
 }
 void CCamera::Draw(const D3DXVECTOR3& pPos) {
-	D3DXMATRIX viewMatrix;
-	D3DXMatrixLookAtLH(&viewMatrix, &m_Position, &m_Target,
+	D3DXMatrixLookAtLH(&m_viewMatrix, &m_Position, &m_Target,
 		&m_Target);
-
-	CRenderer::SetViewMatrix(&viewMatrix);
-
+	CRenderer::SetViewMatrix(&m_viewMatrix);
 
 	//プロじぇんくしょんマトリクス設定
 
@@ -98,7 +96,7 @@ void CCamera::Draw(const D3DXVECTOR3& pPos) {
 		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);//nearclip,perclip。描画距離の最小と最大を示している。広くとりすぎるとｚ描画のレベルが下がる
 
 	CRenderer::SetProjectionMatrix(&projectionMatrix);
-
+	//m_viewMatrix = viewMatrix;
 }
 //void CCamera::fixedDraw() {
 //	D3DXMATRIX CamMat;
@@ -119,4 +117,8 @@ D3DXVECTOR3 CCamera::GetPos() {
 }
 void CCamera::SetPos(D3DXVECTOR3 playerPos) {
 	m_Target = playerPos;
+}
+
+D3DXMATRIX CCamera::GetViewMatrix() {
+	return m_viewMatrix;
 }

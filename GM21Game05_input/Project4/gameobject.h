@@ -22,6 +22,7 @@ public:
 	void SetPosition(D3DXVECTOR3 Position) { m_Position = Position; }
 	void SetRotation(D3DXVECTOR3 Rotation) { m_Rotation = Rotation; }
 	void SetScale(D3DXVECTOR3 Scale) { m_Scale = Scale; }
+	
 
 
 	void SetDestroy() { m_Destroy = true; }

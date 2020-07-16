@@ -4,6 +4,7 @@ class CCamera:public  CGameObject{
 private:
 
 	D3DXVECTOR3 m_Target;
+	D3DXMATRIX m_viewMatrix;
 public:
 	void Init();
 	void Init(D3DXVECTOR3 pPos,
@@ -17,4 +18,6 @@ public:
 	void fixedDraw();
 	D3DXVECTOR3 GetPos();
 	void SetPos(D3DXVECTOR3 playerPos);
+	D3DXMATRIX GetViewMatrix();
+
 };

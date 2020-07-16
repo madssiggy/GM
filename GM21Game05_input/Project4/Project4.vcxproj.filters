@@ -68,6 +68,9 @@
     <ClCompile Include="polygon.cpp">
       <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="explosion.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h">
@@ -114,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="polygon.h">
       <Filter>ヘッダー ファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion.h">
+      <Filter>ソース ファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

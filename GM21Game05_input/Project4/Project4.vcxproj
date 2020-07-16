@@ -165,6 +165,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="explosion.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="fps.cpp" />
     <ClCompile Include="input.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="explosion.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="fps.h" />
     <ClInclude Include="gameobject.h" />

@@ -165,47 +165,47 @@ void CField::Draw() {
 
 }
 
-VERTEX_3D SetVertex(int index,D3DXVECTOR3 Center, float Size,float Height) {
+VERTEX_3D SetVertex(int index, D3DXVECTOR3 Center, float Size, float Height) {
 	//ï‘ÇµílópêîóÒ,tmp
 	VERTEX_3D tmp;
 	//èâä˙âª
 	float SetNum = Size / 2.0f;//SizeÇÕàÍï”ÇÃí∑Ç≥Ç∆ÇµÇƒÇ¢ÇÈÅB
-	tmp.Position =D3DXVECTOR3(SetNum, Height, SetNum);//3Dâª
+	tmp.Position = D3DXVECTOR3(SetNum, Height, SetNum);//3Dâª
 	tmp.Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	tmp.Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	tmp.TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 	D3DXVECTOR3 mag(1.0f, 1.0f, 1.0f);
-		switch (index) {
-		case 0:
-			mag = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
-			tmp.TexCoord = D3DXVECTOR2(0.0f, 0.0f);
-			//vertex[0].Position = D3DXVECTOR3(-10.0f, 0.0f, 10.0f);//3Dâª
-			//vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
-				break;
-		case 1:
-			mag = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-			tmp.TexCoord = D3DXVECTOR2(1.0f, 0.0f);
-			//vertex[1].Position = D3DXVECTOR3(10.0f, 0.0f, 10.0f);
-			//vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
-			break;
-		case 2:
-			mag = D3DXVECTOR3(-1.0f, 1.0f, -1.0f);
-			tmp.TexCoord = D3DXVECTOR2(0.0f, 1.0f);
-			//vertex[2].Position = D3DXVECTOR3(-10.0f, 0.0f, -10.0f);
-			//vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
-			break;
-		case 3:
-			mag = D3DXVECTOR3(1.0f, 1.0f, -1.0f);
-			tmp.TexCoord = D3DXVECTOR2(1.0f, 1.0f);
-			//vertex[3].Position = D3DXVECTOR3(10.0f, 0.0f, -10.0f);
-			//vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
-			break;
-		default:
-			break;
-		}
-		tmp.Position.x*=mag.x;
-		tmp.Position.y *= mag.y;
-		tmp.Position.z *= mag.z;
-		return tmp;
+	switch (index) {
+	case 0:
+		mag = D3DXVECTOR3(-1.0f, 1.0f, 1.0f);
+		tmp.TexCoord = D3DXVECTOR2(0.0f, 0.0f);
+		//vertex[0].Position = D3DXVECTOR3(-10.0f, 0.0f, 10.0f);//3Dâª
+		//vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
+		break;
+	case 1:
+		mag = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		tmp.TexCoord = D3DXVECTOR2(1.0f, 0.0f);
+		//vertex[1].Position = D3DXVECTOR3(10.0f, 0.0f, 10.0f);
+		//vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
+		break;
+	case 2:
+		mag = D3DXVECTOR3(-1.0f, 1.0f, -1.0f);
+		tmp.TexCoord = D3DXVECTOR2(0.0f, 1.0f);
+		//vertex[2].Position = D3DXVECTOR3(-10.0f, 0.0f, -10.0f);
+		//vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
+		break;
+	case 3:
+		mag = D3DXVECTOR3(1.0f, 1.0f, -1.0f);
+		tmp.TexCoord = D3DXVECTOR2(1.0f, 1.0f);
+		//vertex[3].Position = D3DXVECTOR3(10.0f, 0.0f, -10.0f);
+		//vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
+		break;
+	default:
+		break;
+	}
+	tmp.Position.x *= mag.x;
+	tmp.Position.y *= mag.y;
+	tmp.Position.z *= mag.z;
+	return tmp;
 
 }

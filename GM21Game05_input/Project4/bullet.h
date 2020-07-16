@@ -11,6 +11,8 @@ private:
 	int Movecount;
 	CIRCLE m_Col;
 public:
+	void Load();
+	void UnLoad();
 	void Init();
 	void Uninit();
 	void Update();

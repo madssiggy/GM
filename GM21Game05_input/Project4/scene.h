@@ -12,6 +12,7 @@
 #include "bullet.h"
 #include "enemy.h"
 #include "polygon.h"
+#include "explosion.h"
 #include "scene.h"
 
 
@@ -32,25 +33,27 @@ public:
 	virtual void Init(){
 		tmpC=AddGameObject<CCamera>(0);
 //フィールドづくり=============================
-		float Height = -30.0f;//置く高さ
-		float Size=30.0f;//一辺のサイズ
-		float tmp_x, tmp_z;//中心位置を決めるためのtmp変数
-		tmp_x = (float)FIELD_X*(Size/2.0f)*-1.0f;
-		tmp_z = (float)FIELD_Z*(Size / 2.0f)*-1.0f;
-		D3DXVECTOR3 Center(tmp_x, Height, tmp_z);
-		for (int z = 0;z < FIELD_Z;z++) {
-			for (int x = 0;x < FIELD_X;x++) {
-				D3DXVECTOR3 Center(tmp_x, Height, tmp_z);
-				tmpF[z][x]=AddGameObject<CField>(1);
-				tmpF[z][x]->Init(Center, Size, Height);
-				tmp_x += Size;//一列置いたら次の列へずらす
-				Center.x = tmp_x;
-			}
-			tmp_x -= Size * FIELD_X;
-			tmp_z += Size;//一列置いたら次の列へずらす
-			Center.z = tmp_z;//一行置いたら次の行へずらす
-		}
+		//float Height = -30.0f;//置く高さ
+		//float Size=30.0f;//一辺のサイズ
+		//float tmp_x, tmp_z;//中心位置を決めるためのtmp変数
+		//tmp_x = (float)FIELD_X*(Size/2.0f)*-1.0f;
+		//tmp_z = (float)FIELD_Z*(Size / 2.0f)*-1.0f;
+		//D3DXVECTOR3 Center(tmp_x, Height, tmp_z);
+		//for (int z = 0;z < FIELD_Z;z++) {
+		//	for (int x = 0;x < FIELD_X;x++) {
+		//		D3DXVECTOR3 Center(tmp_x, Height, tmp_z);
+		//		tmpF[z][x]=AddGameObject<CField>(1);
+		//		tmpF[z][x]->Init(Center, Size, Height);
+		//		tmp_x += Size;//一列置いたら次の列へずらす
+		//		Center.x = tmp_x;
+		//	}
+		//	tmp_x -= Size * FIELD_X;
+		//	tmp_z += Size;//一列置いたら次の列へずらす
+		//	Center.z = tmp_z;//一行置いたら次の行へずらす
+		//}
 //===========================================
+		AddGameObject<CField>(1);
+		//AddGameObject<CExplosion>(1);
 		float posX = -20.0f;
 		for (int i = 0;i < ENEMY_INDEX;i++) {
 			D3DXVECTOR3 pos(posX, 0, 30.0f);
@@ -59,12 +62,11 @@ public:
 			posX += 20.0f;
 		}
 		tmpP=AddGameObject<CPlayer>(1);
-		for (int i = 0;i < MAX_BULLET_NUM;i++) {
-			tmpBullet[i] = AddGameObject<CBullet>(1);
-		}
+
 		AddGameObject<CPolygon>(2);
+
 		AddGameObject<CCamera>(0)->Init(	tmpP->GetPosition(),
-																	D3DXVECTOR3(0.0f, 400.0f, -30.0f),
+																	D3DXVECTOR3(0.0f, 400.0f, 0.0f),
 																	D3DXVECTOR3(30.0f,0.0f,0.0f));
 
 	}
@@ -86,26 +88,14 @@ public:
 			for (CGameObject* object : m_GameObject[i]) {
 				object->Update();
 			}
-		//	m_GameObject[i].remove_if([](CGameObject* object) {return object->Destroy();});
+			m_GameObject[i].remove_if([](CGameObject* object) {return object->Destroy();});
 		}
 	
 		for (int i = 0;i < ENEMY_INDEX;i++) {
 			tmpE[i]->GetPlayerPos(tmpP->GetPosition());
-			tmpE[i]->Update();
+
 		}
 
-		if (CInput::GetKeyTrigger(VK_SPACE)) {
-			for (int i = 0;i < MAX_BULLET_NUM;i++) {
-				if (tmpBullet[i]->GetCanUse() == false) {
-					tmpBullet[i]->Create(tmpP->GetPosition(),tmpP->GetMoveWay());
-				}
-			}
-		}
-		for (int i = 0;i < MAX_BULLET_NUM;i++) {
-			if (tmpBullet[i]->GetCanUse() == true) {
-				tmpBullet[i]->Update();
-			}
-		}
 		tmpC->Update(tmpP->GetPosition());
 
 

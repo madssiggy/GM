@@ -7,13 +7,26 @@
 
 #include "enemy.h"
 #include "bullet.h"
+#include "explosion.h"
 #include"scene.h"
 #define BULLET_WIDTH (30)
 CEnemy enemyList[ENEMY_INDEX];
-void CBullet::Init() {
-
+void CBullet::Load() {
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\torus.obj");
+
+
+}
+
+void CBullet::UnLoad() {
+	m_Model->Unload();
+	delete m_Model;
+
+}
+void CBullet::Init() {
+	m_Model = new CModel();
+	m_Model->Load("asset\\model\\torus.obj");
+
 
 
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -28,13 +41,24 @@ void CBullet::Init() {
 }
 
 void CBullet::Uninit() {
-	
 	m_Model->Unload();
 	delete m_Model;
 
 }
 
 void CBullet::Update() {
+
+
+		m_Col.Center = m_Position;
+
+		m_Position += moveWay;
+		Movecount++;
+	
+	if (Movecount >= MaxDistance) {
+		SetDestroy();
+	}
+	
+
 	CScene* scene = CManager::GetScene();
 	std::vector<CEnemy*>enemyList = scene->GetGameObjects<CEnemy>(1);
 	for (CEnemy* enemy : enemyList) {
@@ -42,27 +66,18 @@ void CBullet::Update() {
 		D3DXVECTOR3 direction = m_Position - enemyPosition;
 		float length = D3DXVec3Length(&direction);
 		if (length < 2.0f) {
+			scene->AddGameObject<CExplosion>(1)->SetPosition(m_Position);
 			enemy->Destroy();
 			enemy->SetCanUse(false);
-			Destroy();
+			SetDestroy();
 			return;
 		}
-	}
-	if (canUse == true) {
-		m_Col.Center = m_Position;
-
-		m_Position += moveWay;
-		Movecount++;
-	
-	if (Movecount >= MaxDistance) {
-		Destroy();
-	}
 	}
 }
 
 void CBullet::Draw() {
 	//マトリクス設定
-	if (canUse == true) {
+
 		D3DXMATRIX world, scale, rot, trans;
 		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
@@ -73,8 +88,6 @@ void CBullet::Draw() {
 
 
 		m_Model->Draw();
-	}
-	
 
 }
 
@@ -85,10 +98,7 @@ void CBullet::Create(D3DXVECTOR3 playerPos,D3DXVECTOR3 Way) {
 	Movecount = 0;
 
 }
-void CBullet::Destroy() {
-	//エフェクト発生させたら素敵だね
-	canUse = false;
-}
+
 bool CBullet::GetCanUse() {
 	return canUse;
 }

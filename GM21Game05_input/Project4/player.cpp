@@ -19,14 +19,14 @@ const float minSpeedMag = 0.0f;
 
 //CEnemy g_Enemy[ENEMY_INDEX];
 #define PLAYER_WIDTH (100)
-
+CScene* scene;
 void CPlayer::Init() {
-
+	scene = CManager::GetScene();
 	m_Model = new CModel();
-	m_Model->Load("asset\\model\\human.obj");
+	m_Model->Load("asset\\model\\torus.obj");
 	
 
-	m_Position = D3DXVECTOR3(0.0f, 15.0f, 0.0f);
+	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
@@ -49,6 +49,8 @@ void CPlayer::Uninit() {
 }
 
 void CPlayer::Update() {
+	scene = CManager::GetScene();
+	scene->AddGameObject<CCamera>(0)->Update(m_Position);
 	if (CInput::GetKeyTrigger('H')&&speedMag+addSpeedMag<maxSpeedMag) {
 		speedMag += addSpeedMag;
 	}

@@ -4,7 +4,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "model.h"
-
+#include "input.h"
 
 #include "enemy.h"
 
@@ -12,7 +12,7 @@ D3DXVECTOR3 mag(0.1f, 0.1f, 0.1f);
 #define ENEMY_WIDTH (32)
 void CEnemy::Init(D3DXVECTOR3 pos) {
 	m_Model = new CModel();
-	m_Model->Load("asset\\model\\human.obj");
+	m_Model->Load("asset\\model\\torus.obj");
 
 
 	m_Position = pos;
@@ -44,13 +44,20 @@ void CEnemy::Uninit() {
 	delete m_Model;
 }
 void CEnemy::Update() {
-	D3DXVECTOR3 moveWay = m_playerPos - m_Position;
-	D3DXVec3Normalize(&moveWay, &moveWay);
-	moveWay.x *= mag.x;
-	moveWay.y *= mag.y;
-	moveWay.z *= mag.z;
-	m_Position += moveWay;
-	m_Col.Center = m_Position;
+	if (isMove==false&&CInput::GetKeyTrigger(VK_RETURN)) {
+		isMove = true;
+	}
+	if (isMove==true&&canUse == true) {
+		D3DXVECTOR3 moveWay = m_playerPos - m_Position;
+		D3DXVec3Normalize(&moveWay, &moveWay);
+		moveWay.x *= mag.x;
+		moveWay.y *= mag.y;
+		moveWay.z *= mag.z;
+		m_Position += moveWay;
+		m_Col.Center = m_Position;
+		//たぶんそうですね・・・・
+	}
+	
 }
 void CEnemy::Draw() {//マトリクス設定
 	if (canUse == true) {

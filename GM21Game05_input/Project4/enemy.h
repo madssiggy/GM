@@ -8,6 +8,7 @@ protected:
 	D3DXVECTOR3 m_playerPos;
 	CIRCLE m_Col;
 	bool canUse=true;
+	bool isMove=false;
 public:
 	CEnemy() {}
 	~CEnemy() {}
