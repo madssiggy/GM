@@ -9,6 +9,7 @@
 #include "input.h"
 #include "bullet.h"
 #include "scene.h"
+
 //#include "enemy.h"
 
 //#define ENEMY_INDEX (3)
@@ -24,7 +25,7 @@ void CPlayer::Init() {
 	scene = CManager::GetScene();
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\torus.obj");
-	
+	m_Material = m_Model->GetMaterial();
 
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -34,14 +35,10 @@ void CPlayer::Init() {
 	m_MoveWay = MOVEWAY[NEUTRAL];
 
 
-	m_Col.Center = m_Position;
-	m_Col.r = (float)PLAYER_WIDTH * 0.8f;
 }
 
 void CPlayer::Uninit() {
-	//for (int i = 0;i < ENEMY_INDEX;i++) {
-	//	g_Enemy[i].Uninit();
-	//}
+
 
 	m_Model->Unload();
 	delete m_Model;
@@ -49,59 +46,81 @@ void CPlayer::Uninit() {
 }
 
 void CPlayer::Update() {
+	D3DXVECTOR3 Forward = GetForward();
 	scene = CManager::GetScene();
-	scene->AddGameObject<CCamera>(0)->Update(m_Position);
-	if (CInput::GetKeyTrigger('H')&&speedMag+addSpeedMag<maxSpeedMag) {
-		speedMag += addSpeedMag;
-	}
-	if (CInput::GetKeyTrigger('L')&&speedMag-addSpeedMag>minSpeedMag) {
-		
-		speedMag -= addSpeedMag;
-	}
+
+
+	//if (CInput::GetKeyPress('W')) {
+	//	m_MoveWay = MOVEWAY[back];
+	//	m_Position += Forward * 0.1f;
+	//	if (CInput::GetKeyPress('A')) 
+	//		m_MoveWay += MOVEWAY[left];
+	//	if (CInput::GetKeyPress('D')) 
+	//		m_MoveWay += MOVEWAY[right];
+	//	
+	//	D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+	//	m_Position += m_MoveWay * speedMag;
+	//}
+	//else if (CInput::GetKeyPress('S')) {
+	//	m_MoveWay = MOVEWAY[front];
+	//	m_Position -= Forward * 0.1f;
+	//	if (CInput::GetKeyPress('A'))
+	//		m_MoveWay += MOVEWAY[left];
+	//	if (CInput::GetKeyPress('D'))
+	//		m_MoveWay += MOVEWAY[right];
+	//	D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+	//	m_Position += m_MoveWay * speedMag;
+	//}
+	//else if (CInput::GetKeyPress('A')) {
+	//	m_Position += MOVEWAY[left] *speedMag;
+	//	m_MoveWay = MOVEWAY[left];
+	//}
+	//else if (CInput::GetKeyPress('D')) {
+	//	m_Position += MOVEWAY[right] *speedMag;
+	//	m_MoveWay = MOVEWAY[right];
+	//}
+
 
 	if (CInput::GetKeyPress('W')) {
-		m_MoveWay = MOVEWAY[back];
-
-		if (CInput::GetKeyPress('A')) 
-			m_MoveWay += MOVEWAY[left];
-		if (CInput::GetKeyPress('D')) 
-			m_MoveWay += MOVEWAY[right];
-		
+		m_MoveWay = Forward;
+	D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+	m_Position += m_MoveWay * speedMag;
+	}
+	if (CInput::GetKeyPress('S')) {
+		m_MoveWay = Forward;
 		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
-		m_Position += m_MoveWay * speedMag;
+		m_Position -= m_MoveWay * speedMag;
 	}
-	else if (CInput::GetKeyPress('S')) {
-		m_MoveWay = MOVEWAY[front];
-
-		if (CInput::GetKeyPress('A'))
-			m_MoveWay += MOVEWAY[left];
-		if (CInput::GetKeyPress('D'))
-			m_MoveWay += MOVEWAY[right];
-
-		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
-		m_Position += m_MoveWay * speedMag;
-	}
-	else if (CInput::GetKeyPress('A')) {
-		m_Position += MOVEWAY[left] *speedMag;
-		m_MoveWay = MOVEWAY[left];
-	}
-	else if (CInput::GetKeyPress('D')) {
-		m_Position += MOVEWAY[right] *speedMag;
-		m_MoveWay = MOVEWAY[right];
-	}
-
 	if (CInput::GetKeyTrigger(VK_SPACE)) {
-		CScene* scene = CManager::GetScene();
 		scene->AddGameObject<CBullet>(1)->Create(m_Position,m_MoveWay);
-		/*for (int i = 0;i < MAX_BULLET_NUM;i++) {
-			if (tmpBullet[i]->GetCanUse() == false) {
-				tmpBullet[i]->Create(tmpP->GetPosition(), tmpP->GetMoveWay());
-
-			}
-		}*/
+	
+	}
+	if (CInput::GetKeyPress(VK_LSHIFT)) {
+		m_Rotation.y -= 0.01f;
+	}
+	if (CInput::GetKeyPress(VK_RSHIFT)) {
+		m_Rotation.y += 0.01f;
 	}
 
-	m_Col.Center = m_Position;
+
+	//色変更デバグ
+	if (CInput::GetKeyPress('R')) {
+		m_Material.Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		m_Model->SetMaterial(m_Material);
+	}
+	if (CInput::GetKeyPress('G')) {
+		m_Material.Diffuse= D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+		m_Model->SetMaterial(m_Material);
+	}
+	if (CInput::GetKeyPress('B')) {
+		m_Material.Diffuse = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+		m_Model->SetMaterial(m_Material);
+	}
+	if (CInput::GetKeyPress('Z')) {
+		m_Material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.25f);
+		m_Model->SetMaterial(m_Material);
+	}
+	scene->AddGameObject<CCamera>(0)->Update(m_Position);
 }
 
 void CPlayer::Draw() {
@@ -121,18 +140,4 @@ void CPlayer::Draw() {
 }
 
 
-
 D3DXVECTOR3 CPlayer::GetMoveWay() { return m_MoveWay; }
-
-//bool CollisionVsEnemAndBul() {
-//	for (int i = 0;i < MAX_BULLET_NUM;i++) {
-//		if (myBullet[i].GetCanUse()) {
-//			continue;
-//		}
-//		for (int EnemyCount = 0;EnemyCount < ENEMY_INDEX;EnemyCount++) {
-//			if (OnCollisionEnter(g_Enemy[i].GetCollision(), myBullet[i].GetCollision())) 
-//				return true;
-//		}
-//	}
-//	return false;
-//}

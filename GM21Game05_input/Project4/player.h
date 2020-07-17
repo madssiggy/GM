@@ -1,11 +1,10 @@
 #pragma once
 #include "gameobject.h"
-#include "collision.h"
 class CPlayer:public CGameObject {
 private:
 	CModel* m_Model;
 	D3DXVECTOR3 m_MoveWay;
-	CIRCLE m_Col;
+	MATERIAL m_Material;
 protected:
 public:
 	CPlayer() {}
@@ -15,5 +14,4 @@ public:
 	void Update();
 	void Draw();
 	D3DXVECTOR3 GetMoveWay();
-	const CIRCLE* GetCollision() { return &m_Col; }
 };

@@ -58,5 +58,6 @@ public:
 
 	void Load( const char *FileName );
 	void Unload();
-
+	MATERIAL GetMaterial() { return m_SubsetArray->Material.Material; }
+	void SetMaterial(MATERIAL setMat) { m_SubsetArray->Material.Material = setMat; }
 };

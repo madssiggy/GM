@@ -11,10 +11,11 @@
 #include"scene.h"
 #define BULLET_WIDTH (30)
 CEnemy enemyList[ENEMY_INDEX];
-void CBullet::Load() {
+CModel* CBullet::m_Model;
+ void CBullet::Load() {
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\torus.obj");
-
+	
 
 }
 
@@ -24,16 +25,14 @@ void CBullet::UnLoad() {
 
 }
 void CBullet::Init() {
-	m_Model = new CModel();
-	m_Model->Load("asset\\model\\torus.obj");
+//	m_Model = new CModel();
+	//m_Model->Load("asset\\model\\torus.obj");
 
 
 
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	m_Col.Center = m_Position;
-	m_Col.r = (float)BULLET_WIDTH*0.8f;
 
 	moveWay = MOVEWAY[NEUTRAL];
 	canUse = false;
@@ -41,15 +40,13 @@ void CBullet::Init() {
 }
 
 void CBullet::Uninit() {
-	m_Model->Unload();
-	delete m_Model;
+	//m_Model->Unload();
+	//delete m_Model;
 
 }
 
 void CBullet::Update() {
 
-
-		m_Col.Center = m_Position;
 
 		m_Position += moveWay;
 		Movecount++;
