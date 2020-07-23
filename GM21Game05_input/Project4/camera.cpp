@@ -12,7 +12,7 @@
 D3DXVECTOR3 CameraPos;
 static D3DXVECTOR3 oldCameraPos;
 bool isOnePerson;
-D3DXVECTOR3 p_cameraPos(0.0f, 15.0f, -10.0f);
+D3DXVECTOR3 p_cameraPos(0.0f, 25.0f, -10.0f);
 void CCamera::Init() {
 	CameraPos = p_cameraPos;
 	m_Position = CameraPos;
@@ -47,30 +47,30 @@ void CCamera::Update() {
 }
 
 void CCamera::Update(D3DXVECTOR3 playerPos) {
-	if (CInput::GetKeyPress(VK_LEFT)) {
-		CPlayer* player = CManager::GetScene()->GetGameObject<CPlayer>(1);
-		player->SetRotation(player->GetRotation() - D3DXVECTOR3(0.0f,0.01f,0.0f));
+	//if (CInput::GetKeyPress(VK_LEFT)) {
+	//	CPlayer* player = CManager::GetScene()->GetGameObject<CPlayer>(1);
+	//	player->SetRotation(player->GetRotation() - D3DXVECTOR3(0.0f,0.01f,0.0f));
 
-	}
-	if (CInput::GetKeyPress(VK_RIGHT) && CameraPos.y>0.0f) {
-		CPlayer* player = CManager::GetScene()->GetGameObject<CPlayer>(1);
+	//}
+	//if (CInput::GetKeyPress(VK_RIGHT) && CameraPos.y>0.0f) {
+	//	CPlayer* player = CManager::GetScene()->GetGameObject<CPlayer>(1);
 
-		player->SetRotation(player->GetRotation() + D3DXVECTOR3(0.0f, 0.01f, 0.0f));
+	//	player->SetRotation(player->GetRotation() + D3DXVECTOR3(0.0f, 0.01f, 0.0f));
+	//}
+	if (CInput::GetKeyPress(VK_LSHIFT)&&isOnePerson==false) {
+		oldCameraPos.y = CameraPos.y;
+		oldCameraPos.z = CameraPos.z;
+		CameraPos.y = 20;
+		CameraPos.z = -30;
+		isOnePerson = true;
 	}
-	//if (CInput::GetKeyPress(VK_LSHIFT)&&isOnePerson==false) {
-	//	oldCameraPos.y = CameraPos.y;
-	//	oldCameraPos.z = CameraPos.z;
-	//	CameraPos.y = 20;
-	//	CameraPos.z = -30;
-	//	isOnePerson = true;
-	//}
-	//if (CInput::GetKeyPress(VK_RSHIFT) && isOnePerson == true) {
-	//	 CameraPos.y = oldCameraPos.y;
-	//		 CameraPos.z = oldCameraPos.z;
-	//		 isOnePerson = false;
-	//}
-	//m_Target=playerPos;
-	//m_Position =m_Target  + CameraPos;
+	if (CInput::GetKeyPress(VK_RSHIFT) && isOnePerson == true) {
+		 CameraPos.y = oldCameraPos.y;
+			 CameraPos.z = oldCameraPos.z;
+			 isOnePerson = false;
+	}
+	m_Target=playerPos;
+	m_Position =m_Target  + CameraPos;
 	CPlayer* player = CManager::GetScene()->GetGameObject<CPlayer>(1);
 
 	m_Target = player->GetPosition();//プレイヤーを定点で観測する

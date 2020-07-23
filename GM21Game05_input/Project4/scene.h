@@ -25,7 +25,7 @@ protected:
 	CEnemy* tmpE[ENEMY_INDEX];
 	const int FIELD_X = 5;//X横軸上におく個数
 	const int FIELD_Z = 5;//Z軸上に置く個数
-	CField* tmpF[5][5];
+	CField* tmpF[4];
 public:
 	CScene(){}
 	virtual ~CScene() {}
@@ -52,7 +52,18 @@ public:
 		//	Center.z = tmp_z;//一行置いたら次の行へずらす
 		//}
 //===========================================
-		AddGameObject<CField>(1);
+		//AddGameObject<CField>(1);
+		//AddGameObject<CField>(1)->SetPosition(D3DXVECTOR3(-10.0f,-10.0f,0.0f));
+		tmpF[1]= AddGameObject<CField>(1);//初期位置
+		//左
+		tmpF[2] = AddGameObject<CField>(1);
+		tmpF[2]->SetPosition(D3DXVECTOR3(-10.0f, 10.0f, 0.0f));
+		tmpF[2]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, -2.0f));
+		//右
+		tmpF[3] = AddGameObject<CField>(1);
+		tmpF[3]->SetPosition(D3DXVECTOR3(10.0f, 10.0f, 0.0f));
+		tmpF[3]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 2.0f));
+
 		float posX = -20.0f;
 		for (int i = 0;i < ENEMY_INDEX;i++) {
 			D3DXVECTOR3 pos(posX, 0, 30.0f);

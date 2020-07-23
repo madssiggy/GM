@@ -161,6 +161,8 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="audio_clip.cpp" />
+    <ClCompile Include="ballenemy.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
@@ -175,8 +177,11 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="resource.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio_clip.h" />
+    <ClInclude Include="ballenemy.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
@@ -192,6 +197,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -8,9 +8,15 @@
 
 #include "enemy.h"
 
+#include "bullet.h"
+#include "scene.h"
+
 D3DXVECTOR3 mag(0.1f, 0.1f, 0.1f);
 #define ENEMY_WIDTH (32)
+
 void CEnemy::Init(D3DXVECTOR3 pos) {
+
+	m_scene = CManager::GetScene();
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\torus.obj");
 
@@ -20,12 +26,15 @@ void CEnemy::Init(D3DXVECTOR3 pos) {
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 	m_playerPos= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
+	m_playerPos = m_scene->AddGameObject<CPlayer>(1)->GetPosition();
 	m_Col.Center = m_Position;
 	m_Col.r = (float)ENEMY_WIDTH*0.8f;
+	m_shotTime = 30;
+	m_coolTime = 0;
 }
 
 void CEnemy::Init() {
+	m_scene = CManager::GetScene();
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\human.obj");
 
@@ -47,7 +56,9 @@ void CEnemy::Update() {
 	if (isMove==false&&CInput::GetKeyTrigger(VK_RETURN)) {
 		isMove = true;
 	}
-	if (isMove==true&&canUse == true) {
+	if (isMove==true) {
+		m_coolTime++;
+		m_playerPos = m_scene->AddGameObject<CPlayer>(1)->GetPosition();
 		D3DXVECTOR3 moveWay = m_playerPos - m_Position;
 		D3DXVec3Normalize(&moveWay, &moveWay);
 		moveWay.x *= mag.x;
@@ -55,7 +66,10 @@ void CEnemy::Update() {
 		moveWay.z *= mag.z;
 		m_Position += moveWay;
 		m_Col.Center = m_Position;
-		//たぶんそうですね・・・・
+		if (m_coolTime >= m_shotTime) {
+			m_scene->AddGameObject<CBullet>(1)->Create(m_Position, moveWay,1);
+			m_coolTime = 0;
+		}
 	}
 	
 }

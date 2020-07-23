@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "gameobject.h"
 
 
@@ -9,20 +10,19 @@ private:
 	D3DXVECTOR3 moveWay;
 	bool canUse;//trueのみ描画
 	int Movecount;
-	int m_Parent=0;
+
 public:
 	CBullet() {};
 	virtual ~CBullet() {};
 	static void Load();
-	
+
 	static void UnLoad();
 	void Init();
 	void Uninit();
 	void Update();
-	void EnemyUpdate();
 	void Draw();
-	void Create(D3DXVECTOR3 playerPos, D3DXVECTOR3 Way,int parent=0);
+	void Create(D3DXVECTOR3 playerPos, D3DXVECTOR3 Way);
 	bool GetCanUse();
-	//void SetParent(int parent=0) { m_Parent = parent;//0がプレイヤー、１がエネミー }
+
 };
 const int MaxDistance = 40;
