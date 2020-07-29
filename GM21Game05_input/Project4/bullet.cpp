@@ -83,8 +83,8 @@ void CBullet::Update() {
 			float length = D3DXVec3Length(&direction);
 			if (length < 2.0f) {
 				scene->AddGameObject<CExplosion>(1)->SetPosition(m_Position);
-				enemy->Destroy();
-				enemy->SetCanUse(false);
+				enemy->SetDestroy();
+				//enemy->SetCanUse(false);
 				SetDestroy();
 				return;
 			}

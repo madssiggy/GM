@@ -25,7 +25,7 @@ protected:
 	CEnemy* tmpE[ENEMY_INDEX];
 	const int FIELD_X = 5;//Xâ°é≤è„Ç…Ç®Ç≠å¬êî
 	const int FIELD_Z = 5;//Zé≤è„Ç…íuÇ≠å¬êî
-	CField* tmpF[4];
+	CField* tmpF[7];
 public:
 	CScene(){}
 	virtual ~CScene() {}
@@ -57,13 +57,24 @@ public:
 		tmpF[1]= AddGameObject<CField>(1);//èâä˙à íu
 		//ç∂
 		tmpF[2] = AddGameObject<CField>(1);
-		tmpF[2]->SetPosition(D3DXVECTOR3(-10.0f, 10.0f, 0.0f));
-		tmpF[2]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, -2.0f));
+		tmpF[2]->SetPosition(D3DXVECTOR3(-15.0f, 0.0f, 10.0f));
+	//	tmpF[2]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, -2.0f));
 		//âE
 		tmpF[3] = AddGameObject<CField>(1);
-		tmpF[3]->SetPosition(D3DXVECTOR3(10.0f, 10.0f, 0.0f));
-		tmpF[3]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 2.0f));
+		tmpF[3]->SetPosition(D3DXVECTOR3(15.0f, 0.0f, 10.0f));
+	//	tmpF[3]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 2.0f));
+		tmpF[4] = AddGameObject<CField>(1);
+		tmpF[4]->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 20.0f));
+		
+		tmpF[5] = AddGameObject<CField>(1);
+		tmpF[5]->SetPosition(D3DXVECTOR3(15.0f, 0.0f, -10.0f));
+		
+		tmpF[6] = AddGameObject<CField>(1);
+		tmpF[6]->SetPosition(D3DXVECTOR3(-15.0f, 0.0f, -10.0f));
 
+		tmpF[7] = AddGameObject<CField>(1);
+		tmpF[7]->SetPosition(D3DXVECTOR3(0.0f, 0.0f, -20.0f));
+		AddGameObject<CPlayer>(1);
 		float posX = -20.0f;
 		for (int i = 0;i < ENEMY_INDEX;i++) {
 			D3DXVECTOR3 pos(posX, 0, 30.0f);
@@ -71,7 +82,7 @@ public:
 			tmpE[i]->Init(pos);
 			posX += 20.0f;
 		}
-		AddGameObject<CPlayer>(1);
+	
 		AddGameObject<CBullet>(1)->Load();
 		AddGameObject<CPolygon>(2);
 

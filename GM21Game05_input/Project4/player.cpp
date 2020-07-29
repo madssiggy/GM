@@ -9,6 +9,7 @@
 #include "input.h"
 #include "bullet.h"
 #include "scene.h"
+#include <math.h>
 
 //#include "enemy.h"
 
@@ -17,14 +18,14 @@ float speedMag;
 const float addSpeedMag = 0.01f;
 const float maxSpeedMag = 1.0f;
 const float minSpeedMag = 0.0f;
-
+const float moveSpeed=1.0f;
 //CEnemy g_Enemy[ENEMY_INDEX];
 #define PLAYER_WIDTH (100)
 CScene* scene;
 void CPlayer::Init() {
 	scene = CManager::GetScene();
 	m_Model = new CModel();
-	m_Model->Load("asset\\model\\torus.obj");
+	m_Model->Load("asset\\model\\player.obj");
 	m_Material = m_Model->GetMaterial();
 
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -48,49 +49,129 @@ void CPlayer::Uninit() {
 void CPlayer::Update() {
 	D3DXVECTOR3 Forward = GetForward();
 	scene = CManager::GetScene();
+/*	//àÍíËÇÃäpìxÇ‹Ç≈âÒì]Ç≥ÇπÇÈ
+	//rotÇÃîÕàÕÇÕ0~4(0~360ìx)
+	//îÕàÕÇÕÇOÅ`ÇSÇÃÉvÉâÉXÇ≈àÍé¸ÅAÇOÅ`Å|ÇSÇÃÉ}ÉCÉiÉXàÍé¸ÇÇ›ÇÈä¥Ç∂Ç©ÇÀ
+			//ê≥ÇÃê≥ñ ïâÇÃê≥ñ ÅiÇvÇ»ÇÁÇOÇ∆ÇSÅAÇrÇ»ÇÁÇQÇ∆Å[ÇQÅAÇ`Ç»ÇÁÇPÇ∆
+	//ÇﬂÇÒÇ«Ç≠Ç¡ÇπÅIäpìxéñÇ…ÇµÇƒÇ¢Ç∑ÇÈï˚å¸ÇÃâÒì]ê›íËÇµÇƒÇ®Ç±Ç§
+	//ÇªÇ‡Ç»ÇÒÇ≈Ç±ÇÍïKóvÇ»ÇÒÇæÇ¡ÇØÅHÇ†ÅAâÒì]ÇÃï˚å¸Ç©
+	//%4Ç∑ÇÍÇŒÇÊÇ¢ÇÃÇ≈ÇÕÅH
+	float nowRot=fmodf(m_Rotation.y,4);
+	if (CInput::GetKeyPress('W')) {
+
+
+		if (nowRot == 0.0) {
+			m_Rotation.y;
+		}
+		else if (nowRot!=0.0f) {
+		//å¸Ç¢ÇƒÇ¢Ç»Ç¢èÍçáÇÕäpìxéñÇ…àŸÇ»ÇÈâÒì]ï˚å¸ÇéwíËÇµÇƒå¸Ç©ÇπÇÈ
+			//É}ÉCÉiÉXÇÃéûÇÕÇSÅDÇOÇÜë´ÇµÇƒê≥ÇÃílÇ∆ÇµÇƒÇ›ÇÈÅB
+			if ((m_Rotation.y > 0.0f) && (m_Rotation.y < 2.0f)) {
+				m_Rotation.y -= 0.05f;
+			}
+			else if ((m_Rotation.y >= 2.0f) && (m_Rotation.y < 4.0f)) {
+				m_Rotation.y += 0.05f;
+			}
+		}
+
+	//front ÇÃï˚å¸Ç…à⁄ìÆÇ∑ÇÈ==âÒì]äpìxÇ©ÇÁfrontÇéÊìæÇµÇƒm_posÇ…â¡éZÇµÇƒÇ¢Ç≠
+		Forward = GetForward();
+		m_MoveWay = Forward;
+		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+		m_Position += m_MoveWay * speedMag;
+	}
+	if (CInput::GetKeyPress('A')) {
+		//àÍíËÇÃäpìxÇ‹Ç≈âÒì]Ç≥ÇπÇÈ
+		//Wà»äOÇÕ
+	//rot.yÇ™ï˚å¸ÇÃà íuÅiÅ{ÇSÅDÇOÇÜÅjÇå¸Ç¢ÇƒÇ¢ÇÈèÍçá
+		if (m_Rotation.y == 2.0f || m_Rotation.y == 6.0f) {
+			m_Rotation.y = 2.0f;
+		}
+		else if (m_Rotation.y != 0.0f || m_Rotation.y != 4.0f) {
+			//å¸Ç¢ÇƒÇ¢Ç»Ç¢èÍçáÇÕäpìxéñÇ…àŸÇ»ÇÈâÒì]ï˚å¸ÇéwíËÇµÇƒå¸Ç©ÇπÇÈ
+				//180ìxÅiÅ{ÇQÅDÇOÇÜÅjñ¢ñûÇ∆ÇPÇWÇOà»è„ÇÃèÍçáÇ≈ÉpÉ^Å[ÉìÇópà”Ç∑ÇÈ
+			if ((m_Rotation.y > 0.0f) && (m_Rotation.y < 2.0f)) {
+				m_Rotation.y -= 0.05f;
+			}
+			else if ((m_Rotation.y >= 2.0f) && (m_Rotation.y < 4.0f)) {
+				m_Rotation.y += 0.05f;
+			}
+		}
+
+		//front ÇÃï˚å¸Ç…à⁄ìÆÇ∑ÇÈ==âÒì]äpìxÇ©ÇÁfrontÇéÊìæÇµÇƒm_posÇ…â¡éZÇµÇƒÇ¢Ç≠
+		Forward = GetForward();
+		m_MoveWay = Forward;
+		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+		m_Position += m_MoveWay * speedMag;
+	}
+	if (CInput::GetKeyPress('S')) {
+	
+	}
+	if (CInput::GetKeyPress('D')) {
+	}*/
+
+	//if (CInput::GetKeyPress('W')) {
+	//	m_MoveWay = MOVEWAY[back];
+	//	m_Position += Forward * 0.1f;
+	//	if (CInput::GetKeyPress('A')) 
+	//		m_MoveWay += MOVEWAY[left];
+	//	if (CInput::GetKeyPress('D')) 
+	//		m_MoveWay += MOVEWAY[right];
+	//	
+	//	D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+	//	m_Position += m_MoveWay * speedMag;
+	//}
+	//else if (CInput::GetKeyPress('S')) {
+	//	m_MoveWay = MOVEWAY[front];
+	//	m_Position -= Forward * 0.1f;
+	//	if (CInput::GetKeyPress('A'))
+	//		m_MoveWay += MOVEWAY[left];
+	//	if (CInput::GetKeyPress('D'))
+	//		m_MoveWay += MOVEWAY[right];
+	//	D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+	//	m_Position += m_MoveWay * speedMag;
+	//}
+	//else if (CInput::GetKeyPress('A')) {
+	//	m_Position += MOVEWAY[left] *speedMag;
+	//	m_MoveWay = MOVEWAY[left];
+	//}
+	//else if (CInput::GetKeyPress('D')) {
+	//	m_Position += MOVEWAY[right] *speedMag;
+	//	m_MoveWay = MOVEWAY[right];
+	//}
 
 
 	if (CInput::GetKeyPress('W')) {
-		m_MoveWay = MOVEWAY[back];
-		m_Position += Forward * 0.1f;
-		if (CInput::GetKeyPress('A')) 
-			m_MoveWay += MOVEWAY[left];
-		if (CInput::GetKeyPress('D')) 
-			m_MoveWay += MOVEWAY[right];
-		
+		//if (CInput::GetKeyPress('A'))
+		//	m_Rotation.y -= 0.05f;
+		//if (CInput::GetKeyPress('D'))
+		//	m_Rotation.y += 0.05f;
+		Forward = GetForward();
+		m_MoveWay = Forward;
+	D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
+	m_Position += m_MoveWay * speedMag;
+
+	}
+	if (CInput::GetKeyPress('S')) {
+		//if (CInput::GetKeyPress('A'))
+		//	m_Rotation.y -= 0.05f;
+		//if (CInput::GetKeyPress('D'))
+		//	m_Rotation.y += 0.05f;
+		Forward = GetForward();
+		m_MoveWay = Forward;
 		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
-		m_Position += m_MoveWay * speedMag;
-	}
-	else if (CInput::GetKeyPress('S')) {
-		m_MoveWay = MOVEWAY[front];
-		m_Position -= Forward * 0.1f;
-		if (CInput::GetKeyPress('A'))
-			m_MoveWay += MOVEWAY[left];
-		if (CInput::GetKeyPress('D'))
-			m_MoveWay += MOVEWAY[right];
-		D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
-		m_Position += m_MoveWay * speedMag;
-	}
-	else if (CInput::GetKeyPress('A')) {
-		m_Position += MOVEWAY[left] *speedMag;
-		m_MoveWay = MOVEWAY[left];
-	}
-	else if (CInput::GetKeyPress('D')) {
-		m_Position += MOVEWAY[right] *speedMag;
-		m_MoveWay = MOVEWAY[right];
+		m_Position -= m_MoveWay * speedMag;
+
 	}
 
+	if (CInput::GetKeyPress('A')) {
+		m_Rotation.y += 0.05f;
 
-	//if (CInput::GetKeyPress('W')) {
-	//	m_MoveWay = Forward;
-	//D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
-	//m_Position += m_MoveWay * speedMag;
-	//}
-	//if (CInput::GetKeyPress('S')) {
-	//	m_MoveWay = Forward;
-	//	D3DXVec3Normalize(&m_MoveWay, &m_MoveWay);
-	//	m_Position -= m_MoveWay * speedMag;
-	//}
+	}
+	if (CInput::GetKeyPress('D')) {
+		m_Rotation.y -= 0.05f;
+
+	}
 
 	//if (CInput::GetKeyPress('A')) {
 	//	m_Position.x -= 0.1f;
@@ -124,15 +205,19 @@ void CPlayer::Update() {
 	//	m_Quaternion *= quat;
 	//}
 	if (CInput::GetKeyTrigger(VK_SPACE)) {
-		scene->AddGameObject<CBullet>(1)->Create(m_Position,m_MoveWay);
+		D3DXVECTOR3 tmpFWD = GetForward();
+		tmpFWD.x *= 1.3f;
+		tmpFWD.z *= 1.3f;
+		tmpFWD.z *= 1.3f;
+		scene->AddGameObject<CBullet>(1)->Create(m_Position,tmpFWD);
 	
 	}
-	if (CInput::GetKeyPress(VK_LSHIFT)) {
-		m_Rotation.y -= 0.01f;
-	}
-	if (CInput::GetKeyPress(VK_RSHIFT)) {
-		m_Rotation.y += 0.01f;
-	}
+	//if (CInput::GetKeyPress(VK_LSHIFT)) {
+	//	m_Rotation.y -= 0.01f;
+	//}
+	//if (CInput::GetKeyPress(VK_RSHIFT)) {
+	//	m_Rotation.y += 0.01f;
+	//}
 
 
 	//êFïœçXÉfÉoÉO
@@ -160,9 +245,9 @@ void CPlayer::Draw() {
 
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	//D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.z, m_Rotation.x);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.z, m_Rotation.x);
 	
-	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
+//	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot*trans;
 	CRenderer::SetWorldMatrix(&world);

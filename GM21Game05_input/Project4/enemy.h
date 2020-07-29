@@ -23,6 +23,6 @@ public:
 	
 	void GetPlayerPos(D3DXVECTOR3 Ppos);
 	const CIRCLE* GetCollision() { return &m_Col; }
-	void Destroy() { canUse = false; }
+	//void Destroy() { canUse = false; }
 	void SetCanUse(bool set) { canUse = set; }
 };

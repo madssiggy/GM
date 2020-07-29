@@ -26,10 +26,10 @@ void CEnemy::Init(D3DXVECTOR3 pos) {
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 	m_playerPos= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_playerPos = m_scene->AddGameObject<CPlayer>(1)->GetPosition();
+	m_playerPos = m_scene->GetGameObject<CPlayer>(1)->GetPosition();
 	m_Col.Center = m_Position;
 	m_Col.r = (float)ENEMY_WIDTH*0.8f;
-	m_shotTime = 30;
+	m_shotTime = 60;
 	m_coolTime = 0;
 }
 
@@ -58,7 +58,7 @@ void CEnemy::Update() {
 	}
 	if (isMove==true) {
 		m_coolTime++;
-		m_playerPos = m_scene->AddGameObject<CPlayer>(1)->GetPosition();
+//
 		D3DXVECTOR3 moveWay = m_playerPos - m_Position;
 		D3DXVec3Normalize(&moveWay, &moveWay);
 		moveWay.x *= mag.x;
@@ -67,14 +67,19 @@ void CEnemy::Update() {
 		m_Position += moveWay;
 		m_Col.Center = m_Position;
 		if (m_coolTime >= m_shotTime) {
-			m_scene->AddGameObject<CBullet>(1)->Create(m_Position, moveWay,1);
+			D3DXVECTOR3 BulletSpeed;
+			BulletSpeed.x=moveWay.x * 1.3f;
+			BulletSpeed.y = moveWay.y * 1.3f;
+			BulletSpeed.z = moveWay.z * 1.3f;
+			m_scene->AddGameObject<CBullet>(1)->Create(m_Position, BulletSpeed,1);
+			m_playerPos = m_scene->GetGameObject<CPlayer>(1)->GetPosition();
 			m_coolTime = 0;
 		}
 	}
 	
 }
 void CEnemy::Draw() {//マトリクス設定
-	if (canUse == true) {
+
 		D3DXMATRIX world, scale, rot, trans;
 		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.x, m_Rotation.y, m_Rotation.z);
@@ -85,7 +90,7 @@ void CEnemy::Draw() {//マトリクス設定
 
 
 		m_Model->Draw();
-	}
+	
 }
 
 void CEnemy::GetPlayerPos(D3DXVECTOR3 Ppos) {

@@ -1,3 +1,2 @@
-﻿  enemy.cpp
-c:\users\user\documents\gm\gm21game05_input\project4\player.h(18): warning C4244: '引数': 'float' から 'DWORD' への変換です。データが失われる可能性があります。
+﻿  field.cpp
   Project4.vcxproj -> C:\Users\user\Documents\GM\GM21Game05_input\Debug\Project4.exe

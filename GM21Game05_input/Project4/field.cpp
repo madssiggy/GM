@@ -6,6 +6,18 @@
 #include "field.h"
 #include "input.h"
 VERTEX_3D SetVertex(int index, D3DXVECTOR3 Center, float Size, float Height);
+D3DXCOLOR gaming;
+bool colorChange = false;
+D3DXCOLOR changeColor;
+int nowColor;
+int nextColor;
+enum ColorIndex {
+	none=0,
+	red,
+	green,
+	blue,
+};
+
 
 void CField::Init() {
 
@@ -47,7 +59,7 @@ void CField::Init() {
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(CRenderer::GetDevice(),
-		"asset/texture/field.jpg",
+		"asset/texture/hexagon3.png",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -56,6 +68,12 @@ void CField::Init() {
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	gaming = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+	colorChange = false;
+	changeColor = D3DXCOLOR(0.1f, 0.0f, -0.1f, 1.0f);
+\
+	nowColor = blue;
+	nextColor = red;
 }
 void CField::Init(D3DXVECTOR3 Center, float Size,float Height) {
 
@@ -82,7 +100,7 @@ void CField::Init(D3DXVECTOR3 Center, float Size,float Height) {
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(CRenderer::GetDevice(),
-		"asset/texture/field.jpg",
+		"asset/texture/hexagon.png",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -98,19 +116,11 @@ void CField::Uninit() {
 
 }
 
+float addRed = 0.05f;
 void CField::Update() {
-	//if (Keyboard_IsPress(DIK_UPARROW)) {
-	//	m_Position.z += 1.0f;
-	//}
-	//else if (Keyboard_IsPress(DIK_DOWNARROW)) {
-	//	m_Position.z -= 1.0f;
-	//}
-	//else if (Keyboard_IsPress(DIK_LEFTARROW)) {
-	//	m_Position.x -= 1.0f;
-	//}
-	//else if (Keyboard_IsPress(DIK_RIGHTARROW)) {
-	//	m_Position.x += 1.0f;
-	//}
+	gaming.r += addRed;
+	if (gaming.r == 1.0f||gaming.r==-0.05f)
+		addRed*=-1.0f;
 }
 
 void CField::Draw() {
@@ -130,8 +140,12 @@ void CField::Draw() {
 
 	//マテリアル設定
 	MATERIAL material;
+
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Diffuse.r = gaming.r;//D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Diffuse.g = gaming.g;
+	material.Diffuse.b = gaming.b;
+
 	CRenderer::SetMaterial(material);
 	
 	//テクスチャ設定

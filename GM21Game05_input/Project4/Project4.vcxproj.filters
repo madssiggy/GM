@@ -142,5 +142,8 @@
     <ClInclude Include="ballenemy.h">
       <Filter>ヘッダー ファイル\gameObject</Filter>
     </ClInclude>
+    <ClInclude Include="mouse.h">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
