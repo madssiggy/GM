@@ -5,13 +5,18 @@
 #include "renderer.h"
 #include "model.h"
 
+#include "gameobject.h"
+
+#include "player.h"
 #include "enemy.h"
 #include "bullet.h"
 #include "explosion.h"
 #include"scene.h"
+#define MAX_BULLET_NUM (10)
 #define BULLET_WIDTH (30)
 CEnemy enemyList[ENEMY_INDEX];
 CModel* CBullet::m_Model;
+
  void CBullet::Load() {
 	m_Model = new CModel();
 	m_Model->Load("asset\\model\\torus.obj");
@@ -34,7 +39,7 @@ void CBullet::Init() {
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	moveWay = MOVEWAY[NEUTRAL];
+	moveWay = D3DXVECTOR3(0, 0, 0);// MOVEWAY[NEUTRAL];
 	canUse = false;
 	Movecount = 0;
 }
@@ -47,14 +52,13 @@ void CBullet::Uninit() {
 
 void CBullet::Update() {
 
+	m_Position += moveWay;
+	Movecount++;
 
-		m_Position += moveWay;
-		Movecount++;
-	
 	if (Movecount >= MaxDistance) {
 		SetDestroy();
 	}
-	
+
 	//親がエネミーの場合（＝プレイヤーを対象に取っている場合
 	if (m_Parent == 1) {
 
@@ -66,9 +70,9 @@ void CBullet::Update() {
 			float length = D3DXVec3Length(&direction);
 			if (length < 2.0f) {
 				scene->AddGameObject<CExplosion>(1)->SetPosition(m_Position);
-				player->AddAlpha(-0.25f);
-				//	enemy->Destroy();
-				//	enemy->SetCanUse(false);
+				//	player->AddAlpha(-0.25f);
+					//	enemy->Destroy();
+					//	enemy->SetCanUse(false);
 				SetDestroy();
 				return;
 			}
@@ -82,17 +86,21 @@ void CBullet::Update() {
 			D3DXVECTOR3 direction = m_Position - enemyPosition;
 			float length = D3DXVec3Length(&direction);
 			if (length < 2.0f) {
+				//SE_explosion.Play();
 				scene->AddGameObject<CExplosion>(1)->SetPosition(m_Position);
-				enemy->SetDestroy();
-				//enemy->SetCanUse(false);
-				SetDestroy();
+				enemy->AddHP(-1);
+		
+				if (enemy->GetHP() <= 0) {
+					enemy->SetDestroy();
+		
+					SetDestroy();
+				}
 				return;
 			}
 		}
 	}
 
 }
-
 void CBullet::EnemyUpdate() {
 
 	m_Position += moveWay;
@@ -131,3 +139,4 @@ void CBullet::Create(D3DXVECTOR3 playerPos,D3DXVECTOR3 Way,int parent) {
 bool CBullet::GetCanUse() {
 	return canUse;
 }
+

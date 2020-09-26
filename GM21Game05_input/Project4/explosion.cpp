@@ -1,8 +1,9 @@
 #include"main.h"
 
+#include "renderer.h"
 #include "camera.h"
 #include "polygon.h"
-#include "renderer.h"
+
 
 #include "manager.h"
 
@@ -11,8 +12,15 @@
 #include "input.h"
 
 #include "scene.h"
+#include "debug_scene.h"
 
+
+ID3D11Buffer*								CExplosion::m_VertexBuffer;//matrix
+ID3D11ShaderResourceView*	CExplosion::m_Texture;//画像
+//CAudioClip* CExplosion::m_SE;
 void CExplosion::Load(){
+	//.Load("asset//sound/SE//hit.wav");
+
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);//3D化
@@ -65,50 +73,8 @@ void CExplosion::Unload() {
 
 }
 void CExplosion::Init() {
-	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);//3D化
-	vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
-
-	vertex[1].Position = D3DXVECTOR3(1.0f, 1.0f, 10.0f);
-	vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
-
-	vertex[2].Position = D3DXVECTOR3(-1.0f, -1.0f, -10.0f);
-	vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
-
-	vertex[3].Position = D3DXVECTOR3(1.0f, -1.0f, -10.0f);
-	vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
-
-	//頂点バッファ生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = vertex;
-
-	CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
-
-	//テクスチャ読み込み
-	D3DX11CreateShaderResourceViewFromFile(CRenderer::GetDevice(),
-		"asset/texture/explosion.png",
-		NULL,
-		NULL,
-		&m_Texture,
-		NULL);
-	assert(m_Texture);//リリース時には出てこない、エラー時に出てきてくれるすぐれもの
+	
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
@@ -120,14 +86,14 @@ void CExplosion::Init(D3DXVECTOR3 Center, float Size, float Height) {
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }
 void CExplosion::Uninit() {
-	m_VertexBuffer->Release();
-	m_Texture->Release();
 
 }
 
 void CExplosion::Update() {
+	CDebugScene::PlaySE();
 	m_count++;
 	if (m_count >= 16) {
+
 		SetDestroy();
 		return;
 	}

@@ -22,6 +22,12 @@
     <Filter Include="ソース ファイル\gameObject\enemy">
       <UniqueIdentifier>{6add2e18-a4ed-482f-b6da-dd3af60a7c72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\gameObject\scene">
+      <UniqueIdentifier>{2100bee8-1029-46fc-a211-7710e1bf56b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\scene">
+      <UniqueIdentifier>{3c6b3d79-da17-4035-acc3-aa3c6283a1b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="vertexShader.hlsl">
@@ -41,19 +47,10 @@
     <ClCompile Include="manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="field.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="model.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="fps.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="collision.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="bullet.cpp">
@@ -71,17 +68,32 @@
     <ClCompile Include="explosion.cpp">
       <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル\gameObject\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="debug_scene.cpp">
+      <Filter>ソース ファイル\gameObject\scene</Filter>
+    </ClCompile>
     <ClCompile Include="audio_clip.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="resource.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル\gameObject\enemy</Filter>
+      <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
     <ClCompile Include="ballenemy.cpp">
       <Filter>ソース ファイル\gameObject\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>ソース ファイル\gameObject\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="vegetable.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="field.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="hexagon.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,15 +113,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="fps.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="collision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="bullet.h">
@@ -133,17 +136,39 @@
     <ClInclude Include="explosion.h">
       <Filter>ソース ファイル\gameObject</Filter>
     </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="debug_scene.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
     <ClInclude Include="audio_clip.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\gameObject</Filter>
     </ClInclude>
     <ClInclude Include="ballenemy.h">
       <Filter>ヘッダー ファイル\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="mouse.h">
+    <ClInclude Include="title.h">
+      <Filter>ソース ファイル\gameObject\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="vegetable.h">
       <Filter>ソース ファイル\gameObject</Filter>
     </ClInclude>
+    <ClInclude Include="hexagon.h">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="assimp.lib">
+      <Filter>リソース ファイル</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assimp-vc140-mt.dll">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

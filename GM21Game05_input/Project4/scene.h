@@ -4,91 +4,32 @@
 #include <vector>
 #include "input.h"
 #include "main.h"
-#include "scene.h"
+
+#include "audio_clip.h"
+#include "resource.h"
+
 #include "gameobject.h"
-#include "camera.h"
-#include "field.h"
-#include "model.h"
-#include "player.h"
-#include "bullet.h"
-#include "enemy.h"
-#include "polygon.h"
-#include "explosion.h"
 
 
 
+
+
+static CAudioClip audio;
+static CAudioClip SE_explosion;
 
 class CScene {
 protected:
 	std::list<CGameObject*>m_GameObject[3];//あとから直値を定値にかえよう
 
-	CEnemy* tmpE[ENEMY_INDEX];
-	const int FIELD_X = 5;//X横軸上におく個数
-	const int FIELD_Z = 5;//Z軸上に置く個数
-	CField* tmpF[7];
+	
 public:
 	CScene(){}
-	virtual ~CScene() {}
-	virtual void Init(){
-		CBullet::Load();
-		AddGameObject<CCamera>(0);
-//フィールドづくり=============================
-		//float Height = -30.0f;//置く高さ
-		//float Size=30.0f;//一辺のサイズ
-		//float tmp_x, tmp_z;//中心位置を決めるためのtmp変数
-		//tmp_x = (float)FIELD_X*(Size/2.0f)*-1.0f;
-		//tmp_z = (float)FIELD_Z*(Size / 2.0f)*-1.0f;
-		//D3DXVECTOR3 Center(tmp_x, Height, tmp_z);
-		//for (int z = 0;z < FIELD_Z;z++) {
-		//	for (int x = 0;x < FIELD_X;x++) {
-		//		D3DXVECTOR3 Center(tmp_x, Height, tmp_z);
-		//		tmpF[z][x]=AddGameObject<CField>(1);
-		//		tmpF[z][x]->Init(Center, Size, Height);
-		//		tmp_x += Size;//一列置いたら次の列へずらす
-		//		Center.x = tmp_x;
-		//	}
-		//	tmp_x -= Size * FIELD_X;
-		//	tmp_z += Size;//一列置いたら次の列へずらす
-		//	Center.z = tmp_z;//一行置いたら次の行へずらす
-		//}
-//===========================================
-		//AddGameObject<CField>(1);
-		//AddGameObject<CField>(1)->SetPosition(D3DXVECTOR3(-10.0f,-10.0f,0.0f));
-		tmpF[1]= AddGameObject<CField>(1);//初期位置
-		//左
-		tmpF[2] = AddGameObject<CField>(1);
-		tmpF[2]->SetPosition(D3DXVECTOR3(-15.0f, 0.0f, 10.0f));
-	//	tmpF[2]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, -2.0f));
-		//右
-		tmpF[3] = AddGameObject<CField>(1);
-		tmpF[3]->SetPosition(D3DXVECTOR3(15.0f, 0.0f, 10.0f));
-	//	tmpF[3]->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 2.0f));
-		tmpF[4] = AddGameObject<CField>(1);
-		tmpF[4]->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 20.0f));
-		
-		tmpF[5] = AddGameObject<CField>(1);
-		tmpF[5]->SetPosition(D3DXVECTOR3(15.0f, 0.0f, -10.0f));
-		
-		tmpF[6] = AddGameObject<CField>(1);
-		tmpF[6]->SetPosition(D3DXVECTOR3(-15.0f, 0.0f, -10.0f));
-
-		tmpF[7] = AddGameObject<CField>(1);
-		tmpF[7]->SetPosition(D3DXVECTOR3(0.0f, 0.0f, -20.0f));
-		AddGameObject<CPlayer>(1);
-		float posX = -20.0f;
-		for (int i = 0;i < ENEMY_INDEX;i++) {
-			D3DXVECTOR3 pos(posX, 0, 30.0f);
-			tmpE[i] = AddGameObject<CEnemy>(1);
-			tmpE[i]->Init(pos);
-			posX += 20.0f;
-		}
-	
-		AddGameObject<CBullet>(1)->Load();
-		AddGameObject<CPolygon>(2);
-
-		AddGameObject<CCamera>(0)->Init();
+	virtual ~CScene() {
+		CAudioClip::Init();
+		CAudioClip::SetMasterVolume(0.3f);
 
 	}
+	virtual void Init() = 0;
 
 	virtual void Uninit() {
 
@@ -99,7 +40,7 @@ public:
 			}
 			m_GameObject[i].clear();
 		}
-		CBullet::UnLoad();
+	//	CBullet::UnLoad();
 	}
 	
 	virtual void Update() {
@@ -114,7 +55,7 @@ public:
 
 	}
 
-	virtual void Draw() {
+ void Draw() {
 		for (int i = 0;i < 3;i++) {
 			for (CGameObject* object : m_GameObject[i]) {
 				object->Draw();
@@ -154,3 +95,4 @@ public:
 		return objects;
 	}
 };
+

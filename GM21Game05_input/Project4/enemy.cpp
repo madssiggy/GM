@@ -6,6 +6,7 @@
 #include "model.h"
 #include "input.h"
 
+#include "player.h"
 #include "enemy.h"
 
 #include "bullet.h"
@@ -36,8 +37,8 @@ void CEnemy::Init(D3DXVECTOR3 pos) {
 void CEnemy::Init() {
 	m_scene = CManager::GetScene();
 	m_Model = new CModel();
-	m_Model->Load("asset\\model\\human.obj");
-
+//	m_Model->Load("asset\\model\\human.obj");
+	m_Model->Load("asset\\model\\torus.obj");
 
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 50.0f);
 	m_Rotation = D3DXVECTOR3(30.0f, 0.0f, 0.0f);
@@ -68,9 +69,9 @@ void CEnemy::Update() {
 		m_Col.Center = m_Position;
 		if (m_coolTime >= m_shotTime) {
 			D3DXVECTOR3 BulletSpeed;
-			BulletSpeed.x=moveWay.x * 1.3f;
-			BulletSpeed.y = moveWay.y * 1.3f;
-			BulletSpeed.z = moveWay.z * 1.3f;
+			BulletSpeed.x=moveWay.x * 2.0f;
+			BulletSpeed.y = moveWay.y * 2.0f;
+			BulletSpeed.z = moveWay.z * 2.0f;
 			m_scene->AddGameObject<CBullet>(1)->Create(m_Position, BulletSpeed,1);
 			m_playerPos = m_scene->GetGameObject<CPlayer>(1)->GetPosition();
 			m_coolTime = 0;

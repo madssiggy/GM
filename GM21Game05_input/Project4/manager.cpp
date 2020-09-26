@@ -4,7 +4,10 @@
 #include "renderer.h"
 #include "input.h"
 #include "scene.h"
-
+#include "title.h"
+//#include "game.h"
+//#include "result.h"
+#include "debug_scene.h"
 
 
 CScene* CManager::m_Scene=NULL;
@@ -14,9 +17,10 @@ void CManager::Init()
 
 	CRenderer::Init();
 	CInput::Init();
-	m_Scene = new CScene;
-	m_Scene->Init();
+	m_Scene = new CDebugScene;
 
+	m_Scene->Init();
+	//SetScene<CDebugScene >();
 }
 
 void CManager::Uninit()

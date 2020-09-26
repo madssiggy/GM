@@ -1,7 +1,11 @@
 #pragma once
 #include "enemy.h"
 
-class CEnemyBall :public CEnemy {
-
+class CBallEnemy :public CEnemy {
+public:
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
 
 };

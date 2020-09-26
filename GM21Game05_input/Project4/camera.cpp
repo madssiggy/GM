@@ -2,6 +2,7 @@
 
 #include "manager.h"
 #include "renderer.h"
+#include "model.h"
 #include "camera.h"
 #include "input.h"
 #include "model.h"
@@ -12,7 +13,7 @@
 D3DXVECTOR3 CameraPos;
 static D3DXVECTOR3 oldCameraPos;
 bool isOnePerson;
-D3DXVECTOR3 p_cameraPos(0.0f, 25.0f, 00.0f);
+D3DXVECTOR3 p_cameraPos(0.0f, 50.0f, 0.0f);
 void CCamera::Init() {
 	CameraPos = p_cameraPos;
 	m_Position = CameraPos;
@@ -43,7 +44,7 @@ void CCamera::Update() {
 	
 	m_Target = player->GetPosition();//プレイヤーを定点で観測する
 	D3DXVECTOR3 Forward = player->GetForward();
-	m_Position = m_Target - (Forward * 5.0f) + CameraPos;
+	m_Position = m_Target - (Forward * 10.0f) + CameraPos;
 }
 
 void CCamera::Update(D3DXVECTOR3 playerPos) {

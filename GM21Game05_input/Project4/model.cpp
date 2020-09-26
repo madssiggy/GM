@@ -500,3 +500,5 @@ void CModel::LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray,
 	*MaterialNum = materialNum;
 }
 
+	//SUBSET CModel::GetMaterial() { return m_SubsetArray->Material.Material; }
+	//void CModel::SetMaterial(SUBSET setMat) { m_SubsetArray->Material.Material = setMat; }

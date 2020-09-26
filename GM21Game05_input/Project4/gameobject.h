@@ -53,17 +53,17 @@ public:
 		return forward;
 	}
 };
-enum WAY {
-	up=0,
-	down,
-	front,
-	back,
-	left,
-	right,
-
-	NEUTRAL,
-	WAY_MAX
-};
-const D3DXVECTOR3 MOVEWAY[WAY_MAX]{
-	{0,1,0},{0,-1,0},{0,0,-1},{0,0,1},{-1,0,0},{1,0,0},{0,0,0}
-};//上下前後左右の順番で0~５
+//enum WAY {
+//	up=0,
+//	down,
+//	front,
+//	back,
+//	left,
+//	right,
+//
+//	NEUTRAL,
+//	WAY_MAX
+//};
+//const D3DXVECTOR3 MOVEWAY[WAY_MAX]{
+//	{0,1,0},{0,-1,0},{0,0,-1},{0,0,1},{-1,0,0},{1,0,0},{0,0,0}
+//};//上下前後左右の順番で0~５
